@@ -37,7 +37,7 @@ body {
   font-size: 15px;
 }
 
-.active, .collapsible:hover {
+.active, .collapsible:hover, #submit:hover {
   background-color: rgba(125, 34, 125, 0.8);
 }
 
@@ -52,4 +52,8 @@ body {
   padding-left: 50px;
   padding-right: 50px;
   padding-bottom: 50px;
+}
+
+.search-btn {
+  color: rgba(125, 34, 125, 0.8);
 }
