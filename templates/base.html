@@ -13,6 +13,7 @@
 
     <!-- Custom styles for this template -->
     <link href="static/css/custom.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
     <link href="static/css/prism.css" rel="stylesheet">
   </head>
 
@@ -43,7 +44,7 @@
 
       <div class="form-group">
         <label for="inputbox">Paste your code:</label>
-        <textarea class="form-control pb-3" rows="5" id="inputbox"></textarea>
+        <textarea class="form-control pb-3" rows="5" name="codeinput" id="inputbox"></textarea>
         <button type="button" class="btn btn-primary" id="submit">Submit</button>
       </div>
     </main><!-- /.container -->
@@ -58,12 +59,16 @@
     <script src="../../assets/js/vendor/popper.min.js"></script>
     <script src="../../dist/js/bootstrap.min.js"></script>
 
+    <div class="container">
+          <pre><code class="lang-py">{{ file_text }}</code></pre>
+    </div>
     <!-- Collapsible output area -->
       <!-- <a href="#demo" class="btn btn-info" data-toggle="collapse" >Show Error Messages</a>
       <div id="demo" class="collapse">
         Lorem ipsum dolor sit amet
       </div>
     </div> -->
+
 
     <div class="output">
     <p>Output:</p>

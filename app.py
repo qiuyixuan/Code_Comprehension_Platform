@@ -48,7 +48,7 @@ class Application:
 
         @self.flask_app.route("/")
         def index():
-            return render_template("base.html", file_text = "i == 1 or i%2 == 1")
+            return render_template("base.html", file_text = file_text)
 
         @self.flask_app.route("/process", methods=["POST"])
         def process_code():
