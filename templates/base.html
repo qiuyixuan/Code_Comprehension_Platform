@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Code Comprehension</title>
+    <title>neatCode</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -17,8 +17,9 @@
   </head>
 
   <body>
+
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-      <a class="navbar-brand" href="#">{{ file_text }}</a>
+      <a class="navbar-brand" href="#">neatCode</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -26,7 +27,7 @@
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="#" id="home-btn">Home <span class="sr-only">(current)</span></a>
           </li>
 
 
@@ -39,20 +40,12 @@
     </nav>
 
     <main role="main" class="container p-5 m-5">
-      <div class="container">
 
-      <form class="form-group" action="/process" method="post">
+      <div class="form-group">
         <label for="inputbox">Paste your code:</label>
-        <textarea class="form-control" rows="5" id="inputbox" name="codeinput"></textarea>
-        <button type="submit" class="btn btn-primary m-3">Submit</button>
-      </form>
-
-
-    </div>
-    <div class="container">
-
-        <pre><code class="lang-py">{{ file_text }}</code></pre>
-    </div>
+        <textarea class="form-control pb-3" rows="5" id="inputbox"></textarea>
+        <button type="button" class="btn btn-primary" id="submit">Submit</button>
+      </div>
     </main><!-- /.container -->
 
     <!-- Bootstrap core JavaScript
@@ -64,5 +57,46 @@
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
     <script src="../../assets/js/vendor/popper.min.js"></script>
     <script src="../../dist/js/bootstrap.min.js"></script>
+
+    <!-- Collapsible output area -->
+      <!-- <a href="#demo" class="btn btn-info" data-toggle="collapse" >Show Error Messages</a>
+      <div id="demo" class="collapse">
+        Lorem ipsum dolor sit amet
+      </div>
+    </div> -->
+
+    <div class="output">
+    <p>Output:</p>
+    <button type="button" class="collapsible">Error Messages</button>
+    <div class="content">
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+    <button type="button" class="collapsible">Suggestions</button>
+    <div class="content">
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+    <button type="button" class="collapsible">Score</button>
+    <div class="content">
+      <p>6/10</p>
+    </div>
+    </div>
+
+    <script>
+      var coll = document.getElementsByClassName("collapsible");
+      var i;
+
+      for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+          this.classList.toggle("active");
+          var content = this.nextElementSibling;
+          if (content.style.display === "block") {
+            content.style.display = "none";
+          } else {
+            content.style.display = "block";
+          }
+        });
+      }
+      </script>
+
   </body>
 </html>
