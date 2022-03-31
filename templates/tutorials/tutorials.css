@@ -25,4 +25,13 @@ color: rgba(125, 34, 125, 0.8);
     font-size: 22px;
     color:rgb(157, 103, 157);
 }
-  
+
+a:link, a:visited {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover { 
+    color:rgb(133, 69, 133);
+    font-weight: bold;
+}
