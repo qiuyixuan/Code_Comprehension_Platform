@@ -40,10 +40,10 @@
 
     <main role="main" class="container p-5 m-5">
 
-      <div class="form-group">
+      <div class="form-group" action="/process" method="post">
         <label for="inputbox">Paste your code:</label>
-        <textarea class="form-control pb-3" rows="5" id="inputbox"></textarea>
-        <button type="button" class="btn btn-primary" id="submit">Submit</button>
+        <textarea class="form-control pb-3" rows="5" id="inputbox" name="codeinput"></textarea>
+        <button type="submit" class="btn mt-3 btn-primary" id="submit">Submit</button>
       </div>
     </main><!-- /.container -->
 
@@ -79,7 +79,7 @@
     <script>
       var coll = document.getElementsByClassName("collapsible");
       var i;
-      
+
       for (i = 0; i < coll.length; i++) {
         coll[i].addEventListener("click", function() {
           this.classList.toggle("active");
