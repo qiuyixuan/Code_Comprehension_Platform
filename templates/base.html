@@ -12,7 +12,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <!-- Custom styles for this template -->
-    <link href="static/css/style.css" rel="stylesheet">
+    <!-- <link href="static/css/custom.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="style.css">
     <link href="static/css/prism.css" rel="stylesheet">
   </head>
 
@@ -30,27 +31,27 @@
             <a class="nav-link" href="#" id="home-btn">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="tutorials.html">Tutorials</a>
+            <a class="nav-link" href="tutorials/tutorials.html">Tutorials</a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="dashboard.html">Dashboard</a>
+            <a class="nav-link" href="dashboard/dashboard.html">Dashboard</a>
           </li>
         </ul>
-        
+
         <form class="form-inline my-2 my-lg-0">
           <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
           <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
-          <button class="btn search-btn" type="submit">Search</button>
+          <button class="search-btn" type="submit">Search</button>
         </form>
       </div>
     </nav>
 
     <main role="main" class="container p-5 m-5">
 
-      <div class="form-group"  action="/process" method="post">
+      <div class="form-group" action="/process" method="post">
         <label for="inputbox">Paste your code:</label>
-        <textarea class="form-control pb-3" rows="5" name="codeinput" id="inputbox"></textarea>
-        <button type="submit" value="Submit" class="mt-3 btn btn-primary" id="submit">Submit</button>
+        <textarea class="form-control pb-3" rows="5" id="inputbox" name="codeinput"></textarea>
+        <button type="submit" class="btn mt-3 btn-primary" id="submit">Submit</button>
       </div>
     </main><!-- /.container -->
 
