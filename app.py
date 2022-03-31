@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect
 from flask_migrate import Migrate
-
+from src.pylintTest import PylintTest
 #from src import routes, utils as u
 #from src.models import db
 #from src.settings import Settings as S
@@ -21,6 +21,7 @@ class Application:
 
     def __init__(self):
         #self.init_flask()
+        self.pylintTest = PylintTest()
         self.flask_app = Flask(__name__, static_url_path='/static')
         self.init_routes()
 
@@ -48,13 +49,17 @@ class Application:
 
         @self.flask_app.route("/")
         def index():
-            return render_template("base.html", file_text = file_text)
+            return render_template("base.html", file_text = file_text, file_io="")
 
         @self.flask_app.route("/process", methods=["POST"])
         def process_code():
             file_text = request.form.get("codeinput")
-            return render_template("base.html", file_text = file_text)
+            file_io = analyze(file_text)
+            return render_template("base.html", file_text = file_text, file_io=file_io)
 
+        def analyze(file_text):
+            file_io = self.pylintTest.analyze(file_text)
+            return file_io
 
 
 if __name__ == "__main__":
