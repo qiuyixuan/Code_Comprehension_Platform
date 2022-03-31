@@ -52,13 +52,11 @@ class Application:
 
         @self.flask_app.route("/process", methods=["POST"])
         def process_code():
-            file_text = get_text()
-            return redirect(url_for("index"))
+            file_text = request.form.get("codeinput")
+            return render_template("base.html", file_text = file_text)
 
-        def get_text():
-            return request.form["codeinput"]
 
 
 if __name__ == "__main__":
     app = Application()
-    app.flask_app.run()
+    app.flask_app.run(debug=True)
