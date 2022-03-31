@@ -1,0 +1,16 @@
+body {
+    padding-top: 5rem;
+  }
+  
+.nav-link {
+background-color: rgb(157, 103, 157);
+}
+
+#home-btn {
+background-color: rgb(157, 103, 157);
+}
+
+.search-btn {
+color: rgba(125, 34, 125, 0.8);
+}
+  
