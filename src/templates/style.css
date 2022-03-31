@@ -12,7 +12,7 @@ body {
 }
 
 #home-btn {
-  background-color: rgb(157, 103, 157);
+  background-color: rgb(133, 69, 133);
 }
 
 #submit {
@@ -56,4 +56,5 @@ body {
 
 .search-btn {
   color: rgba(125, 34, 125, 0.8);
+  background-color: #f1f1f1;
 }
