@@ -55,6 +55,7 @@ class Application:
         def process_code():
             file_text = request.form.get("codeinput")
             file_io = analyze(file_text)
+            fileDict = self.pylintTest.parseOutput()
             return render_template("base.html", file_text = file_text, file_io=file_io)
 
         def analyze(file_text):
