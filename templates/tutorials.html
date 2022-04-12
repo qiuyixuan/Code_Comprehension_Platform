@@ -16,13 +16,15 @@
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
               <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                  <a class="nav-link" href="../base.html" id="home-btn">Home <span class="sr-only">(current)</span></a>
+                  <a class="nav-link" href="{{ url_for('index') }}" id="home-btn">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
-                  <a class="nav-link" href="./tutorials.html" id="tutorials">Tutorials</a>
+                  <!-- <a class="nav-link" href="./tutorials.html" id="tutorials">Tutorials</a> -->
+                  <a class="nav-link" href="{{ url_for('tutorials') }}">Tutorials</a>
                 </li>
                 <li class="nav-item active">
-                  <a class="nav-link" href="../dashboard/dashboard.html" id="dashboard">Dashboard</a>
+                  <!-- <a class="nav-link" href="../dashboard/dashboard.html" id="dashboard">Dashboard</a> -->
+                  <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
                 </li>
               </ul>
       
