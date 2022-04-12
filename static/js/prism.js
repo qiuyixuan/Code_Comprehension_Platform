@@ -1,5 +1,5 @@
 /* PrismJS 1.27.0
-https://prismjs.com/download.html#themes=prism-solarizedlight&languages=python */
+https://prismjs.com/download.html#themes=prism-solarizedlight&languages=markup+javadoclike+python&plugins=line-highlight+line-numbers+highlight-keywords */
 /// <reference lib="WebWorker"/>
 
 var _self = (typeof window !== 'undefined')
@@ -1264,6 +1264,278 @@ if (typeof global !== 'undefined') {
  * @public
  */
 ;
+Prism.languages.markup = {
+	'comment': {
+		pattern: /<!--(?:(?!<!--)[\s\S])*?-->/,
+		greedy: true
+	},
+	'prolog': {
+		pattern: /<\?[\s\S]+?\?>/,
+		greedy: true
+	},
+	'doctype': {
+		// https://www.w3.org/TR/xml/#NT-doctypedecl
+		pattern: /<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,
+		greedy: true,
+		inside: {
+			'internal-subset': {
+				pattern: /(^[^\[]*\[)[\s\S]+(?=\]>$)/,
+				lookbehind: true,
+				greedy: true,
+				inside: null // see below
+			},
+			'string': {
+				pattern: /"[^"]*"|'[^']*'/,
+				greedy: true
+			},
+			'punctuation': /^<!|>$|[[\]]/,
+			'doctype-tag': /^DOCTYPE/i,
+			'name': /[^\s<>'"]+/
+		}
+	},
+	'cdata': {
+		pattern: /<!\[CDATA\[[\s\S]*?\]\]>/i,
+		greedy: true
+	},
+	'tag': {
+		pattern: /<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,
+		greedy: true,
+		inside: {
+			'tag': {
+				pattern: /^<\/?[^\s>\/]+/,
+				inside: {
+					'punctuation': /^<\/?/,
+					'namespace': /^[^\s>\/:]+:/
+				}
+			},
+			'special-attr': [],
+			'attr-value': {
+				pattern: /=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,
+				inside: {
+					'punctuation': [
+						{
+							pattern: /^=/,
+							alias: 'attr-equals'
+						},
+						/"|'/
+					]
+				}
+			},
+			'punctuation': /\/?>/,
+			'attr-name': {
+				pattern: /[^\s>\/]+/,
+				inside: {
+					'namespace': /^[^\s>\/:]+:/
+				}
+			}
+
+		}
+	},
+	'entity': [
+		{
+			pattern: /&[\da-z]{1,8};/i,
+			alias: 'named-entity'
+		},
+		/&#x?[\da-f]{1,8};/i
+	]
+};
+
+Prism.languages.markup['tag'].inside['attr-value'].inside['entity'] =
+	Prism.languages.markup['entity'];
+Prism.languages.markup['doctype'].inside['internal-subset'].inside = Prism.languages.markup;
+
+// Plugin to make entity title show the real entity, idea by Roman Komarov
+Prism.hooks.add('wrap', function (env) {
+
+	if (env.type === 'entity') {
+		env.attributes['title'] = env.content.replace(/&amp;/, '&');
+	}
+});
+
+Object.defineProperty(Prism.languages.markup.tag, 'addInlined', {
+	/**
+	 * Adds an inlined language to markup.
+	 *
+	 * An example of an inlined language is CSS with `<style>` tags.
+	 *
+	 * @param {string} tagName The name of the tag that contains the inlined language. This name will be treated as
+	 * case insensitive.
+	 * @param {string} lang The language key.
+	 * @example
+	 * addInlined('style', 'css');
+	 */
+	value: function addInlined(tagName, lang) {
+		var includedCdataInside = {};
+		includedCdataInside['language-' + lang] = {
+			pattern: /(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,
+			lookbehind: true,
+			inside: Prism.languages[lang]
+		};
+		includedCdataInside['cdata'] = /^<!\[CDATA\[|\]\]>$/i;
+
+		var inside = {
+			'included-cdata': {
+				pattern: /<!\[CDATA\[[\s\S]*?\]\]>/i,
+				inside: includedCdataInside
+			}
+		};
+		inside['language-' + lang] = {
+			pattern: /[\s\S]+/,
+			inside: Prism.languages[lang]
+		};
+
+		var def = {};
+		def[tagName] = {
+			pattern: RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g, function () { return tagName; }), 'i'),
+			lookbehind: true,
+			greedy: true,
+			inside: inside
+		};
+
+		Prism.languages.insertBefore('markup', 'cdata', def);
+	}
+});
+Object.defineProperty(Prism.languages.markup.tag, 'addAttribute', {
+	/**
+	 * Adds an pattern to highlight languages embedded in HTML attributes.
+	 *
+	 * An example of an inlined language is CSS with `style` attributes.
+	 *
+	 * @param {string} attrName The name of the tag that contains the inlined language. This name will be treated as
+	 * case insensitive.
+	 * @param {string} lang The language key.
+	 * @example
+	 * addAttribute('style', 'css');
+	 */
+	value: function (attrName, lang) {
+		Prism.languages.markup.tag.inside['special-attr'].push({
+			pattern: RegExp(
+				/(^|["'\s])/.source + '(?:' + attrName + ')' + /\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,
+				'i'
+			),
+			lookbehind: true,
+			inside: {
+				'attr-name': /^[^\s=]+/,
+				'attr-value': {
+					pattern: /=[\s\S]+/,
+					inside: {
+						'value': {
+							pattern: /(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,
+							lookbehind: true,
+							alias: [lang, 'language-' + lang],
+							inside: Prism.languages[lang]
+						},
+						'punctuation': [
+							{
+								pattern: /^=/,
+								alias: 'attr-equals'
+							},
+							/"|'/
+						]
+					}
+				}
+			}
+		});
+	}
+});
+
+Prism.languages.html = Prism.languages.markup;
+Prism.languages.mathml = Prism.languages.markup;
+Prism.languages.svg = Prism.languages.markup;
+
+Prism.languages.xml = Prism.languages.extend('markup', {});
+Prism.languages.ssml = Prism.languages.xml;
+Prism.languages.atom = Prism.languages.xml;
+Prism.languages.rss = Prism.languages.xml;
+
+(function (Prism) {
+
+	var javaDocLike = Prism.languages.javadoclike = {
+		'parameter': {
+			pattern: /(^[\t ]*(?:\/{3}|\*|\/\*\*)\s*@(?:arg|arguments|param)\s+)\w+/m,
+			lookbehind: true
+		},
+		'keyword': {
+			// keywords are the first word in a line preceded be an `@` or surrounded by curly braces.
+			// @word, {@word}
+			pattern: /(^[\t ]*(?:\/{3}|\*|\/\*\*)\s*|\{)@[a-z][a-zA-Z-]+\b/m,
+			lookbehind: true
+		},
+		'punctuation': /[{}]/
+	};
+
+
+	/**
+	 * Adds doc comment support to the given language and calls a given callback on each doc comment pattern.
+	 *
+	 * @param {string} lang the language add doc comment support to.
+	 * @param {(pattern: {inside: {rest: undefined}}) => void} callback the function called with each doc comment pattern as argument.
+	 */
+	function docCommentSupport(lang, callback) {
+		var tokenName = 'doc-comment';
+
+		var grammar = Prism.languages[lang];
+		if (!grammar) {
+			return;
+		}
+		var token = grammar[tokenName];
+
+		if (!token) {
+			// add doc comment: /** */
+			var definition = {};
+			definition[tokenName] = {
+				pattern: /(^|[^\\])\/\*\*[^/][\s\S]*?(?:\*\/|$)/,
+				lookbehind: true,
+				alias: 'comment'
+			};
+
+			grammar = Prism.languages.insertBefore(lang, 'comment', definition);
+			token = grammar[tokenName];
+		}
+
+		if (token instanceof RegExp) { // convert regex to object
+			token = grammar[tokenName] = { pattern: token };
+		}
+
+		if (Array.isArray(token)) {
+			for (var i = 0, l = token.length; i < l; i++) {
+				if (token[i] instanceof RegExp) {
+					token[i] = { pattern: token[i] };
+				}
+				callback(token[i]);
+			}
+		} else {
+			callback(token);
+		}
+	}
+
+	/**
+	 * Adds doc-comment support to the given languages for the given documentation language.
+	 *
+	 * @param {string[]|string} languages
+	 * @param {Object} docLanguage
+	 */
+	function addSupport(languages, docLanguage) {
+		if (typeof languages === 'string') {
+			languages = [languages];
+		}
+
+		languages.forEach(function (lang) {
+			docCommentSupport(lang, function (pattern) {
+				if (!pattern.inside) {
+					pattern.inside = {};
+				}
+				pattern.inside.rest = docLanguage;
+			});
+		});
+	}
+
+	Object.defineProperty(javaDocLike, 'addSupport', { value: addSupport });
+
+	javaDocLike.addSupport(['java', 'javascript', 'php'], javaDocLike);
+
+}(Prism));
+
 Prism.languages.python = {
 	'comment': {
 		pattern: /(^|[^\\])#.*/,
@@ -1329,3 +1601,612 @@ Prism.languages.python = {
 Prism.languages.python['string-interpolation'].inside['interpolation'].inside.rest = Prism.languages.python;
 
 Prism.languages.py = Prism.languages.python;
+
+(function () {
+
+	if (typeof Prism === 'undefined' || typeof document === 'undefined' || !document.querySelector) {
+		return;
+	}
+
+	var LINE_NUMBERS_CLASS = 'line-numbers';
+	var LINKABLE_LINE_NUMBERS_CLASS = 'linkable-line-numbers';
+
+	/**
+	 * @param {string} selector
+	 * @param {ParentNode} [container]
+	 * @returns {HTMLElement[]}
+	 */
+	function $$(selector, container) {
+		return Array.prototype.slice.call((container || document).querySelectorAll(selector));
+	}
+
+	/**
+	 * Returns whether the given element has the given class.
+	 *
+	 * @param {Element} element
+	 * @param {string} className
+	 * @returns {boolean}
+	 */
+	function hasClass(element, className) {
+		return element.classList.contains(className);
+	}
+
+	/**
+	 * Calls the given function.
+	 *
+	 * @param {() => any} func
+	 * @returns {void}
+	 */
+	function callFunction(func) {
+		func();
+	}
+
+	// Some browsers round the line-height, others don't.
+	// We need to test for it to position the elements properly.
+	var isLineHeightRounded = (function () {
+		var res;
+		return function () {
+			if (typeof res === 'undefined') {
+				var d = document.createElement('div');
+				d.style.fontSize = '13px';
+				d.style.lineHeight = '1.5';
+				d.style.padding = '0';
+				d.style.border = '0';
+				d.innerHTML = '&nbsp;<br />&nbsp;';
+				document.body.appendChild(d);
+				// Browsers that round the line-height should have offsetHeight === 38
+				// The others should have 39.
+				res = d.offsetHeight === 38;
+				document.body.removeChild(d);
+			}
+			return res;
+		};
+	}());
+
+	/**
+	 * Returns the top offset of the content box of the given parent and the content box of one of its children.
+	 *
+	 * @param {HTMLElement} parent
+	 * @param {HTMLElement} child
+	 */
+	function getContentBoxTopOffset(parent, child) {
+		var parentStyle = getComputedStyle(parent);
+		var childStyle = getComputedStyle(child);
+
+		/**
+		 * Returns the numeric value of the given pixel value.
+		 *
+		 * @param {string} px
+		 */
+		function pxToNumber(px) {
+			return +px.substr(0, px.length - 2);
+		}
+
+		return child.offsetTop
+			+ pxToNumber(childStyle.borderTopWidth)
+			+ pxToNumber(childStyle.paddingTop)
+			- pxToNumber(parentStyle.paddingTop);
+	}
+
+	/**
+	 * Returns whether the Line Highlight plugin is active for the given element.
+	 *
+	 * If this function returns `false`, do not call `highlightLines` for the given element.
+	 *
+	 * @param {HTMLElement | null | undefined} pre
+	 * @returns {boolean}
+	 */
+	function isActiveFor(pre) {
+		if (!pre || !/pre/i.test(pre.nodeName)) {
+			return false;
+		}
+
+		if (pre.hasAttribute('data-line')) {
+			return true;
+		}
+
+		if (pre.id && Prism.util.isActive(pre, LINKABLE_LINE_NUMBERS_CLASS)) {
+			// Technically, the line numbers plugin is also necessary but this plugin doesn't control the classes of
+			// the line numbers plugin, so we can't assume that they are present.
+			return true;
+		}
+
+		return false;
+	}
+
+	var scrollIntoView = true;
+
+	Prism.plugins.lineHighlight = {
+		/**
+		 * Highlights the lines of the given pre.
+		 *
+		 * This function is split into a DOM measuring and mutate phase to improve performance.
+		 * The returned function mutates the DOM when called.
+		 *
+		 * @param {HTMLElement} pre
+		 * @param {string | null} [lines]
+		 * @param {string} [classes='']
+		 * @returns {() => void}
+		 */
+		highlightLines: function highlightLines(pre, lines, classes) {
+			lines = typeof lines === 'string' ? lines : (pre.getAttribute('data-line') || '');
+
+			var ranges = lines.replace(/\s+/g, '').split(',').filter(Boolean);
+			var offset = +pre.getAttribute('data-line-offset') || 0;
+
+			var parseMethod = isLineHeightRounded() ? parseInt : parseFloat;
+			var lineHeight = parseMethod(getComputedStyle(pre).lineHeight);
+			var hasLineNumbers = Prism.util.isActive(pre, LINE_NUMBERS_CLASS);
+			var codeElement = pre.querySelector('code');
+			var parentElement = hasLineNumbers ? pre : codeElement || pre;
+			var mutateActions = /** @type {(() => void)[]} */ ([]);
+
+			/**
+			 * The top offset between the content box of the <code> element and the content box of the parent element of
+			 * the line highlight element (either `<pre>` or `<code>`).
+			 *
+			 * This offset might not be zero for some themes where the <code> element has a top margin. Some plugins
+			 * (or users) might also add element above the <code> element. Because the line highlight is aligned relative
+			 * to the <pre> element, we have to take this into account.
+			 *
+			 * This offset will be 0 if the parent element of the line highlight element is the `<code>` element.
+			 */
+			var codePreOffset = !codeElement || parentElement == codeElement ? 0 : getContentBoxTopOffset(pre, codeElement);
+
+			ranges.forEach(function (currentRange) {
+				var range = currentRange.split('-');
+
+				var start = +range[0];
+				var end = +range[1] || start;
+
+				/** @type {HTMLElement} */
+				var line = pre.querySelector('.line-highlight[data-range="' + currentRange + '"]') || document.createElement('div');
+
+				mutateActions.push(function () {
+					line.setAttribute('aria-hidden', 'true');
+					line.setAttribute('data-range', currentRange);
+					line.className = (classes || '') + ' line-highlight';
+				});
+
+				// if the line-numbers plugin is enabled, then there is no reason for this plugin to display the line numbers
+				if (hasLineNumbers && Prism.plugins.lineNumbers) {
+					var startNode = Prism.plugins.lineNumbers.getLine(pre, start);
+					var endNode = Prism.plugins.lineNumbers.getLine(pre, end);
+
+					if (startNode) {
+						var top = startNode.offsetTop + codePreOffset + 'px';
+						mutateActions.push(function () {
+							line.style.top = top;
+						});
+					}
+
+					if (endNode) {
+						var height = (endNode.offsetTop - startNode.offsetTop) + endNode.offsetHeight + 'px';
+						mutateActions.push(function () {
+							line.style.height = height;
+						});
+					}
+				} else {
+					mutateActions.push(function () {
+						line.setAttribute('data-start', String(start));
+
+						if (end > start) {
+							line.setAttribute('data-end', String(end));
+						}
+
+						line.style.top = (start - offset - 1) * lineHeight + codePreOffset + 'px';
+
+						line.textContent = new Array(end - start + 2).join(' \n');
+					});
+				}
+
+				mutateActions.push(function () {
+					line.style.width = pre.scrollWidth + 'px';
+				});
+
+				mutateActions.push(function () {
+					// allow this to play nicely with the line-numbers plugin
+					// need to attack to pre as when line-numbers is enabled, the code tag is relatively which screws up the positioning
+					parentElement.appendChild(line);
+				});
+			});
+
+			var id = pre.id;
+			if (hasLineNumbers && Prism.util.isActive(pre, LINKABLE_LINE_NUMBERS_CLASS) && id) {
+				// This implements linkable line numbers. Linkable line numbers use Line Highlight to create a link to a
+				// specific line. For this to work, the pre element has to:
+				//  1) have line numbers,
+				//  2) have the `linkable-line-numbers` class or an ascendant that has that class, and
+				//  3) have an id.
+
+				if (!hasClass(pre, LINKABLE_LINE_NUMBERS_CLASS)) {
+					// add class to pre
+					mutateActions.push(function () {
+						pre.classList.add(LINKABLE_LINE_NUMBERS_CLASS);
+					});
+				}
+
+				var start = parseInt(pre.getAttribute('data-start') || '1');
+
+				// iterate all line number spans
+				$$('.line-numbers-rows > span', pre).forEach(function (lineSpan, i) {
+					var lineNumber = i + start;
+					lineSpan.onclick = function () {
+						var hash = id + '.' + lineNumber;
+
+						// this will prevent scrolling since the span is obviously in view
+						scrollIntoView = false;
+						location.hash = hash;
+						setTimeout(function () {
+							scrollIntoView = true;
+						}, 1);
+					};
+				});
+			}
+
+			return function () {
+				mutateActions.forEach(callFunction);
+			};
+		}
+	};
+
+
+	function applyHash() {
+		var hash = location.hash.slice(1);
+
+		// Remove pre-existing temporary lines
+		$$('.temporary.line-highlight').forEach(function (line) {
+			line.parentNode.removeChild(line);
+		});
+
+		var range = (hash.match(/\.([\d,-]+)$/) || [, ''])[1];
+
+		if (!range || document.getElementById(hash)) {
+			return;
+		}
+
+		var id = hash.slice(0, hash.lastIndexOf('.'));
+		var pre = document.getElementById(id);
+
+		if (!pre) {
+			return;
+		}
+
+		if (!pre.hasAttribute('data-line')) {
+			pre.setAttribute('data-line', '');
+		}
+
+		var mutateDom = Prism.plugins.lineHighlight.highlightLines(pre, range, 'temporary ');
+		mutateDom();
+
+		if (scrollIntoView) {
+			document.querySelector('.temporary.line-highlight').scrollIntoView();
+		}
+	}
+
+	var fakeTimer = 0; // Hack to limit the number of times applyHash() runs
+
+	Prism.hooks.add('before-sanity-check', function (env) {
+		var pre = env.element.parentElement;
+		if (!isActiveFor(pre)) {
+			return;
+		}
+
+		/*
+		 * Cleanup for other plugins (e.g. autoloader).
+		 *
+		 * Sometimes <code> blocks are highlighted multiple times. It is necessary
+		 * to cleanup any left-over tags, because the whitespace inside of the <div>
+		 * tags change the content of the <code> tag.
+		 */
+		var num = 0;
+		$$('.line-highlight', pre).forEach(function (line) {
+			num += line.textContent.length;
+			line.parentNode.removeChild(line);
+		});
+		// Remove extra whitespace
+		if (num && /^(?: \n)+$/.test(env.code.slice(-num))) {
+			env.code = env.code.slice(0, -num);
+		}
+	});
+
+	Prism.hooks.add('complete', function completeHook(env) {
+		var pre = env.element.parentElement;
+		if (!isActiveFor(pre)) {
+			return;
+		}
+
+		clearTimeout(fakeTimer);
+
+		var hasLineNumbers = Prism.plugins.lineNumbers;
+		var isLineNumbersLoaded = env.plugins && env.plugins.lineNumbers;
+
+		if (hasClass(pre, LINE_NUMBERS_CLASS) && hasLineNumbers && !isLineNumbersLoaded) {
+			Prism.hooks.add('line-numbers', completeHook);
+		} else {
+			var mutateDom = Prism.plugins.lineHighlight.highlightLines(pre);
+			mutateDom();
+			fakeTimer = setTimeout(applyHash, 1);
+		}
+	});
+
+	window.addEventListener('hashchange', applyHash);
+	window.addEventListener('resize', function () {
+		var actions = $$('pre')
+			.filter(isActiveFor)
+			.map(function (pre) {
+				return Prism.plugins.lineHighlight.highlightLines(pre);
+			});
+		actions.forEach(callFunction);
+	});
+
+}());
+
+(function () {
+
+	if (typeof Prism === 'undefined' || typeof document === 'undefined') {
+		return;
+	}
+
+	/**
+	 * Plugin name which is used as a class name for <pre> which is activating the plugin
+	 *
+	 * @type {string}
+	 */
+	var PLUGIN_NAME = 'line-numbers';
+
+	/**
+	 * Regular expression used for determining line breaks
+	 *
+	 * @type {RegExp}
+	 */
+	var NEW_LINE_EXP = /\n(?!$)/g;
+
+
+	/**
+	 * Global exports
+	 */
+	var config = Prism.plugins.lineNumbers = {
+		/**
+		 * Get node for provided line number
+		 *
+		 * @param {Element} element pre element
+		 * @param {number} number line number
+		 * @returns {Element|undefined}
+		 */
+		getLine: function (element, number) {
+			if (element.tagName !== 'PRE' || !element.classList.contains(PLUGIN_NAME)) {
+				return;
+			}
+
+			var lineNumberRows = element.querySelector('.line-numbers-rows');
+			if (!lineNumberRows) {
+				return;
+			}
+			var lineNumberStart = parseInt(element.getAttribute('data-start'), 10) || 1;
+			var lineNumberEnd = lineNumberStart + (lineNumberRows.children.length - 1);
+
+			if (number < lineNumberStart) {
+				number = lineNumberStart;
+			}
+			if (number > lineNumberEnd) {
+				number = lineNumberEnd;
+			}
+
+			var lineIndex = number - lineNumberStart;
+
+			return lineNumberRows.children[lineIndex];
+		},
+
+		/**
+		 * Resizes the line numbers of the given element.
+		 *
+		 * This function will not add line numbers. It will only resize existing ones.
+		 *
+		 * @param {HTMLElement} element A `<pre>` element with line numbers.
+		 * @returns {void}
+		 */
+		resize: function (element) {
+			resizeElements([element]);
+		},
+
+		/**
+		 * Whether the plugin can assume that the units font sizes and margins are not depended on the size of
+		 * the current viewport.
+		 *
+		 * Setting this to `true` will allow the plugin to do certain optimizations for better performance.
+		 *
+		 * Set this to `false` if you use any of the following CSS units: `vh`, `vw`, `vmin`, `vmax`.
+		 *
+		 * @type {boolean}
+		 */
+		assumeViewportIndependence: true
+	};
+
+	/**
+	 * Resizes the given elements.
+	 *
+	 * @param {HTMLElement[]} elements
+	 */
+	function resizeElements(elements) {
+		elements = elements.filter(function (e) {
+			var codeStyles = getStyles(e);
+			var whiteSpace = codeStyles['white-space'];
+			return whiteSpace === 'pre-wrap' || whiteSpace === 'pre-line';
+		});
+
+		if (elements.length == 0) {
+			return;
+		}
+
+		var infos = elements.map(function (element) {
+			var codeElement = element.querySelector('code');
+			var lineNumbersWrapper = element.querySelector('.line-numbers-rows');
+			if (!codeElement || !lineNumbersWrapper) {
+				return undefined;
+			}
+
+			/** @type {HTMLElement} */
+			var lineNumberSizer = element.querySelector('.line-numbers-sizer');
+			var codeLines = codeElement.textContent.split(NEW_LINE_EXP);
+
+			if (!lineNumberSizer) {
+				lineNumberSizer = document.createElement('span');
+				lineNumberSizer.className = 'line-numbers-sizer';
+
+				codeElement.appendChild(lineNumberSizer);
+			}
+
+			lineNumberSizer.innerHTML = '0';
+			lineNumberSizer.style.display = 'block';
+
+			var oneLinerHeight = lineNumberSizer.getBoundingClientRect().height;
+			lineNumberSizer.innerHTML = '';
+
+			return {
+				element: element,
+				lines: codeLines,
+				lineHeights: [],
+				oneLinerHeight: oneLinerHeight,
+				sizer: lineNumberSizer,
+			};
+		}).filter(Boolean);
+
+		infos.forEach(function (info) {
+			var lineNumberSizer = info.sizer;
+			var lines = info.lines;
+			var lineHeights = info.lineHeights;
+			var oneLinerHeight = info.oneLinerHeight;
+
+			lineHeights[lines.length - 1] = undefined;
+			lines.forEach(function (line, index) {
+				if (line && line.length > 1) {
+					var e = lineNumberSizer.appendChild(document.createElement('span'));
+					e.style.display = 'block';
+					e.textContent = line;
+				} else {
+					lineHeights[index] = oneLinerHeight;
+				}
+			});
+		});
+
+		infos.forEach(function (info) {
+			var lineNumberSizer = info.sizer;
+			var lineHeights = info.lineHeights;
+
+			var childIndex = 0;
+			for (var i = 0; i < lineHeights.length; i++) {
+				if (lineHeights[i] === undefined) {
+					lineHeights[i] = lineNumberSizer.children[childIndex++].getBoundingClientRect().height;
+				}
+			}
+		});
+
+		infos.forEach(function (info) {
+			var lineNumberSizer = info.sizer;
+			var wrapper = info.element.querySelector('.line-numbers-rows');
+
+			lineNumberSizer.style.display = 'none';
+			lineNumberSizer.innerHTML = '';
+
+			info.lineHeights.forEach(function (height, lineNumber) {
+				wrapper.children[lineNumber].style.height = height + 'px';
+			});
+		});
+	}
+
+	/**
+	 * Returns style declarations for the element
+	 *
+	 * @param {Element} element
+	 */
+	function getStyles(element) {
+		if (!element) {
+			return null;
+		}
+
+		return window.getComputedStyle ? getComputedStyle(element) : (element.currentStyle || null);
+	}
+
+	var lastWidth = undefined;
+	window.addEventListener('resize', function () {
+		if (config.assumeViewportIndependence && lastWidth === window.innerWidth) {
+			return;
+		}
+		lastWidth = window.innerWidth;
+
+		resizeElements(Array.prototype.slice.call(document.querySelectorAll('pre.' + PLUGIN_NAME)));
+	});
+
+	Prism.hooks.add('complete', function (env) {
+		if (!env.code) {
+			return;
+		}
+
+		var code = /** @type {Element} */ (env.element);
+		var pre = /** @type {HTMLElement} */ (code.parentNode);
+
+		// works only for <code> wrapped inside <pre> (not inline)
+		if (!pre || !/pre/i.test(pre.nodeName)) {
+			return;
+		}
+
+		// Abort if line numbers already exists
+		if (code.querySelector('.line-numbers-rows')) {
+			return;
+		}
+
+		// only add line numbers if <code> or one of its ancestors has the `line-numbers` class
+		if (!Prism.util.isActive(code, PLUGIN_NAME)) {
+			return;
+		}
+
+		// Remove the class 'line-numbers' from the <code>
+		code.classList.remove(PLUGIN_NAME);
+		// Add the class 'line-numbers' to the <pre>
+		pre.classList.add(PLUGIN_NAME);
+
+		var match = env.code.match(NEW_LINE_EXP);
+		var linesNum = match ? match.length + 1 : 1;
+		var lineNumbersWrapper;
+
+		var lines = new Array(linesNum + 1).join('<span></span>');
+
+		lineNumbersWrapper = document.createElement('span');
+		lineNumbersWrapper.setAttribute('aria-hidden', 'true');
+		lineNumbersWrapper.className = 'line-numbers-rows';
+		lineNumbersWrapper.innerHTML = lines;
+
+		if (pre.hasAttribute('data-start')) {
+			pre.style.counterReset = 'linenumber ' + (parseInt(pre.getAttribute('data-start'), 10) - 1);
+		}
+
+		env.element.appendChild(lineNumbersWrapper);
+
+		resizeElements([pre]);
+
+		Prism.hooks.run('line-numbers', env);
+	});
+
+	Prism.hooks.add('line-numbers', function (env) {
+		env.plugins = env.plugins || {};
+		env.plugins.lineNumbers = true;
+	});
+
+}());
+
+(function () {
+
+	if (typeof Prism === 'undefined') {
+		return;
+	}
+
+	Prism.hooks.add('wrap', function (env) {
+		if (env.type !== 'keyword') {
+			return;
+		}
+		env.classes.push('keyword-' + env.content);
+	});
+
+}());
+
