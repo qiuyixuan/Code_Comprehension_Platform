@@ -69,3 +69,7 @@ a:hover {
   color:rgb(133, 69, 133);
   font-weight: bold;
 }
+
+.form-group {
+  font-family:'Courier New';
+}
