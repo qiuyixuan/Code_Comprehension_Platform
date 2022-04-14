@@ -35,6 +35,7 @@ body {
   text-align: left;
   outline: none;
   font-size: 15px;
+  font-family:'Courier New';
 }
 
 .active, .collapsible:hover, #submit:hover {
@@ -42,7 +43,7 @@ body {
 }
 
 .content {
-  padding: 0 18px;
+  padding: 18px;
   display: none;
   overflow: hidden;
   background-color: #f1f1f1;
@@ -51,9 +52,20 @@ body {
 .output {
   padding-right: 50px;
   padding-bottom: 50px;
+  font-family:'Courier New';
 }
 
 .search-btn {
   color: rgba(125, 34, 125, 0.8);
   background-color: #f1f1f1;
+}
+
+a:link, a:visited {
+  text-decoration: none;
+  color: black;
+}
+
+a:hover { 
+  color:rgb(133, 69, 133);
+  font-weight: bold;
 }
