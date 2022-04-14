@@ -60,8 +60,15 @@ class Application:
 
         def analyze(file_text):
             file_io = self.pylintTest.analyze(file_text)
+
             score_index =file_io.index('Your code has been rated at')
-            score = file_io[score_index+27:]
+            len_string = len('Your code has been rated at')
+            score = file_io[score_index+len_string:]
+
+            dash_index =file_io.index("-------------------------------------")
+
+            file_io = file_io[:dash_index]
+            
             return file_io, score
 
         @self.flask_app.route('/tutorials/')
