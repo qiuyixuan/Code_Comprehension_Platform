@@ -80,6 +80,9 @@ class Application:
             # Missing module docstring
             if "C0114" in file_io:
                 suggestions.append("Docstrings")
+            # Consider using enumerate
+            if "C0200" in file_io:
+                suggestions.append("Consider using enumerate")
 
             return file_io, suggestions, score
 
