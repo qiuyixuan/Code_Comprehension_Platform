@@ -54,13 +54,15 @@ class Application:
         @self.flask_app.route("/process", methods=["POST"])
         def process_code():
             file_text = request.form.get("codeinput")
-            file_io = analyze(file_text)
+            file_io, score = analyze(file_text)
             fileDict = self.pylintTest.parseOutput()
-            return render_template("base.html", file_text = file_text, file_io=file_io)
+            return render_template("base.html", file_text = file_text, file_io=file_io, score=score)
 
         def analyze(file_text):
             file_io = self.pylintTest.analyze(file_text)
-            return file_io
+            score_index =file_io.index('Your code has been rated at')
+            score = file_io[score_index+27:]
+            return file_io, score
 
         @self.flask_app.route('/tutorials/')
         def tutorials():
