@@ -112,5 +112,13 @@ class User(db.Model):
     level = db.Column(db.Integer)
     created_at = db.Column(db.DateTime(timezone=True))
 
+
+class Tutorial(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    difficulty = db.Column(db.Integer)
+    badge = db.Column(db.Integer)
+    datapath = db.Column(db.String(80))
+
+
 if __name__ == "__main__":
     app.flask_app.run(debug=True)
