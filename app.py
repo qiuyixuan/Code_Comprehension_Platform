@@ -65,10 +65,10 @@ class Application:
             len_string = len('Your code has been rated at')
             score = file_io[score_index+len_string:]
 
-            dash_index =file_io.index("-------------------------------------")
+            dash_index =file_io.index("---------")
 
             file_io = file_io[:dash_index]
-            
+
             return file_io, score
 
         @self.flask_app.route('/tutorials/')
