@@ -90,7 +90,18 @@
     <div class="content">
       <ul>
         {% for s in suggestions %}
-          <li>{{ s }}</li>
+          {% if s == "Indentation" %}
+            <li><a href="https://peps.python.org/pep-0008/#indentation">{{ s }}</a></li>
+          {% endif %}
+          {% if s == "Naming Conventions" %}
+            <li><a href="https://peps.python.org/pep-0008/#naming-conventions">{{ s }}</a></li>
+          {% endif %}
+          {% if s == "Docstrings" %}
+            <li><a href="https://peps.python.org/pep-0008/#documentation-strings">{{ s }}</a></li>
+          {% endif %}
+          {% if s == "Consider using enumerate" %}
+            <li><a href="https://vald-phoenix.github.io/pylint-errors/plerr/errors/refactoring/C0200.html">{{ s }}</a></li>
+          {% endif %}
         {% endfor %}
       </ul>
     </div>
