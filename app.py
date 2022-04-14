@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, url_for, redirect
 from flask_migrate import Migrate
 from src.pylintTest import PylintTest
+from flask_sqlalchemy import SQLAlchemy
+
 #from src import routes, utils as u
 #from src.models import db
 #from src.settings import Settings as S
@@ -94,7 +96,21 @@ class Application:
         def dashboard():
             return render_template("dashboard.html")
 
+app = Application()
+app.flask_app.debug = True
+# adding configuration for using a sqlite database
+app.flask_app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+
+# Creating an SQLAlchemy instance
+db = SQLAlchemy(app.flask_app)
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(100), nullable=False)
+    password = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(80), unique=True, nullable=False)
+    level = db.Column(db.Integer)
+    created_at = db.Column(db.DateTime(timezone=True))
 
 if __name__ == "__main__":
-    app = Application()
     app.flask_app.run(debug=True)
