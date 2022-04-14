@@ -54,9 +54,9 @@ class Application:
         @self.flask_app.route("/process", methods=["POST"])
         def process_code():
             file_text = request.form.get("codeinput")
-            file_io, score = analyze(file_text)
+            file_io, suggestions, score = analyze(file_text)
             fileDict = self.pylintTest.parseOutput()
-            return render_template("base.html", file_text = file_text, file_io=file_io, score=score)
+            return render_template("base.html", file_text = file_text, file_io=file_io, suggestions=suggestions, score=score)
 
         def analyze(file_text):
             file_io = self.pylintTest.analyze(file_text)
@@ -69,7 +69,19 @@ class Application:
 
             file_io = file_io[:dash_index]
 
-            return file_io, score
+            suggestions =[]
+
+            # Bad Indentation
+            if "W0311" in file_io:
+                suggestions.append("Indentation")
+            # Invalid Name
+            if "C0103" in file_io:
+                suggestions.append("Naming Conventions")
+            # Missing module docstring
+            if "C0114" in file_io:
+                suggestions.append("Docstrings")
+
+            return file_io, suggestions, score
 
         @self.flask_app.route('/tutorials/')
         def tutorials():
