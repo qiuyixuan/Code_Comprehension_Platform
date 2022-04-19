@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, url_for, redirect
 from flask_migrate import Migrate
 from src.pylintTest import PylintTest
 from flask_sqlalchemy import SQLAlchemy
+import re
 
 #from src import routes, utils as u
 #from src.models import db
@@ -60,10 +61,6 @@ class Application:
             fileDict = self.pylintTest.parseOutput()
             return render_template("base.html", file_text = file_text, file_io=file_io, suggestions=suggestions, score=score)
 
-        @self.flask_app.route("/login", methods=["POST"])
-        def login_page():
-            return render_template("login.html")
-            
         def analyze(file_text):
             file_io = self.pylintTest.analyze(file_text)
 
@@ -90,7 +87,28 @@ class Application:
             if "C0200" in file_io:
                 suggestions.append("Consider using enumerate")
 
+            # Check Function Name Length
+            warnings = check_function_name_length(file_text)
+            suggestions.append(warnings)
+
             return file_io, suggestions, score
+
+        def check_function_name_length(string):
+            warnings = []
+            def_indices = [m.start() for m in re.finditer('def', string)]
+            name_indices = [i + 4 for i in def_indices]
+            
+            for idx in name_indices:
+                paren_idx = string[idx:].index('(')
+                words = camel_case_split(string[idx:paren_idx])
+                
+                if len(words) > 7:
+                    warnings.append('More than 7 words in' + string[idx:paren_idx])
+            
+            return warnings
+
+        def camel_case_split(str):
+            return re.findall(r'[a-zA-Z](?:[a-z]+|[A-Z]*(?=[A-Z]|$))', str)    
 
         @self.flask_app.route('/tutorials/')
         def tutorials():
