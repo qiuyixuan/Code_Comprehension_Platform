@@ -89,7 +89,7 @@ class Application:
 
             # Check Function Name Length
             warnings = check_function_name_length(file_text)
-            suggestions.append(warnings)
+            suggestions += warnings
 
             return file_io, suggestions, score
 
@@ -99,11 +99,11 @@ class Application:
             name_indices = [i + 4 for i in def_indices]
             
             for idx in name_indices:
-                paren_idx = string[idx:].index('(')
+                paren_idx = idx + string[idx:].index('(')
                 words = camel_case_split(string[idx:paren_idx])
                 
                 if len(words) > 7:
-                    warnings.append('More than 7 words in' + string[idx:paren_idx])
+                    warnings.append('More than 7 words in function ' + string[idx:paren_idx])
             
             return warnings
 
