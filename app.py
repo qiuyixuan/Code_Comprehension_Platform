@@ -61,11 +61,19 @@ class Application:
             fileDict = self.pylintTest.parseOutput()
             return render_template("base.html", file_text = file_text, file_io=file_io, suggestions=suggestions, score=score)
 
-        @self.flask_app.route("/login", methods=["POST"])
+        @self.flask_app.route("/login", methods=["POST", "GET"])
         def login_page():
             return render_template("login.html")
 
-        @self.flask_app.route("/register", methods=["POST"])
+        @self.flask_app.route("/register", methods=["POST", "GET"])
+        def choose_action():
+            if request.form["submit_button"] == "log in":
+                print("Login")
+                return login_acct()
+            else:
+                print("register")
+                return register_user()
+
         def register_user():
             if current_user.is_authenticated:
                 return render_template("base.html", file_text = file_text, file_io=file_io, suggestions=suggestions, score=score)
@@ -81,8 +89,20 @@ class Application:
                 user.set_password(password)
                 db.session.add(user)
                 db.session.commit()
-            return redirect('/login')
+            return render_template("/login")
 
+        def login_acct():
+            if current_user.is_authenticated:
+                return render_template("base.html", file_text = file_text, file_io=file_io, suggestions=suggestions, score=score)
+
+            if request.method == 'POST':
+                email = request.form['email']
+                user = UserModel.query.filter_by(email = email).first()
+                if user is not None and user.check_password(request.form['password']):
+                    login_user(user)
+                    return render_template("base.html", file_text = file_text, file_io=file_io, suggestions=suggestions, score=score)
+
+                return render_template('login.html')
 
         def analyze(file_text):
             file_io = self.pylintTest.analyze(file_text)
@@ -144,13 +164,18 @@ class Application:
 app = Application()
 app.flask_app.debug = True
 # adding configuration for using a sqlite database
-app.flask_app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.flask_app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site2.db'
+app.flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+db = SQLAlchemy(app.flask_app)
+db.init_app(app.flask_app)
 # Creating an SQLAlchemy instance
 login = LoginManager()
-db = SQLAlchemy(app.flask_app)
+login.init_app(app.flask_app)
+login.login_view = 'login'
 
-db.create_all()
+
+#db.create_all()
 
 
 class Tutorial(db.Model):
