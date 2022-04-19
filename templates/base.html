@@ -95,6 +95,9 @@
           {% if s == "Consider using enumerate" %}
             <li><a href="https://vald-phoenix.github.io/pylint-errors/plerr/errors/refactoring/C0200.html">{{ s }}</a></li>
           {% endif %}
+          {% if "More than 7 words" in s%}
+            <li>{{ s }}</li>
+          {% endif %}
         {% endfor %}
       </ul>
     </div>
