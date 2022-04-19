@@ -60,6 +60,10 @@ class Application:
             fileDict = self.pylintTest.parseOutput()
             return render_template("base.html", file_text = file_text, file_io=file_io, suggestions=suggestions, score=score)
 
+        @self.flask_app.route("/login", methods=["POST"])
+        def login_page():
+            return render_template("login.html")
+            
         def analyze(file_text):
             file_io = self.pylintTest.analyze(file_text)
 
