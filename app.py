@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, url_for, redirect
 from flask_migrate import Migrate
 from src.pylintTest import PylintTest
 from flask_sqlalchemy import SQLAlchemy
-
+from flask_login import UserMixin, LoginManager, current_user, login_user
 #from src import routes, utils as u
 #from src.models import db
 #from src.settings import Settings as S
@@ -63,7 +63,26 @@ class Application:
         @self.flask_app.route("/login", methods=["POST"])
         def login_page():
             return render_template("login.html")
-            
+
+        @self.flask_app.route("/register", methods=["POST"])
+        def register_user():
+            if current_user.is_authenticated:
+                return render_template("base.html", file_text = file_text, file_io=file_io, suggestions=suggestions, score=score)
+
+            if request.method == 'POST':
+                email = request.form['email']
+                username = request.form['username']
+                password = request.form['password']
+                if UserModel.query.filter_by(email=email):
+                    return ('Email already Present')
+
+                user = UserModel(email=email, username=username)
+                user.set_password(password)
+                db.session.add(user)
+                db.session.commit()
+            return redirect('/login')
+
+
         def analyze(file_text):
             file_io = self.pylintTest.analyze(file_text)
 
@@ -106,15 +125,10 @@ app.flask_app.debug = True
 app.flask_app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 
 # Creating an SQLAlchemy instance
+login = LoginManager()
 db = SQLAlchemy(app.flask_app)
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(100), nullable=False)
-    password = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(80), unique=True, nullable=False)
-    level = db.Column(db.Integer)
-    created_at = db.Column(db.DateTime(timezone=True))
+db.create_all()
 
 
 class Tutorial(db.Model):
@@ -123,6 +137,25 @@ class Tutorial(db.Model):
     badge = db.Column(db.Integer)
     datapath = db.Column(db.String(80))
 
+
+class UserModel(UserMixin, db.Model):
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(80), unique=True)
+    username = db.Column(db.String(100))
+    password_hash = db.Column(db.String())
+
+    def set_password(self,password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self,password):
+        return check_password_hash(self.password_hash,password)
+
+
+@login.user_loader
+def load_user(id):
+    return UserModel.query.get(int(id))
 
 if __name__ == "__main__":
     app.flask_app.run(debug=True)
