@@ -172,7 +172,10 @@ class Application:
 
         @self.flask_app.route('/tutorials/')
         def tutorials():
-            return render_template("tutorials.html")
+            button="Log In"
+            if current_user.is_authenticated:
+                button = "Log Out"
+            return render_template("tutorials.html", button=button)
 
         @self.flask_app.route('/reference/')
         def reference():
@@ -183,7 +186,10 @@ class Application:
 
         @self.flask_app.route('/dashboard/')
         def dashboard():
-            return render_template("dashboard.html")
+            button="Log In"
+            if current_user.is_authenticated:
+                button = "Log Out"
+            return render_template("dashboard.html", button=button)
 
 
 
