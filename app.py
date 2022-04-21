@@ -62,7 +62,8 @@ class Application:
 
         def analyze(file_text):
             file_io = self.pylintTest.analyze(file_text)
-
+            fileDict = self.pylintTest.parseOutput()
+            
             score_index =file_io.index('Your code has been rated at')
             len_string = len('Your code has been rated at')
             score = file_io[score_index+len_string:]
