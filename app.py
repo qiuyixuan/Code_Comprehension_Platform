@@ -13,7 +13,7 @@ import re
 
 
 file_text = "def __init__(): self.number = 1"
-
+button = "Log In"
 
     #@classmethod
     #def boot(cls):
@@ -53,7 +53,10 @@ class Application:
 
         @self.flask_app.route("/")
         def index():
-            return render_template("base.html", file_text = file_text, file_io="")
+            button="Log In"
+            if current_user.is_authenticated:
+                button = "Log Out"
+            return render_template("base.html", file_text = file_text, file_io="", button=button)
 
         @self.flask_app.route("/process", methods=["POST"])
         def process_code():
@@ -64,6 +67,7 @@ class Application:
 
         def logout():
             logout_user()
+            button="Log In"
             return redirect('/')
 
         @self.flask_app.route("/login", methods=["POST", "GET"])
@@ -98,14 +102,16 @@ class Application:
 
         def login_acct():
             if current_user.is_authenticated:
-                return render_template("base.html")
+                button = "Log Out"
+                return render_template("base.html", button=button)
 
             if request.method == 'POST':
                 email = request.form['email']
                 user = UserModel.query.filter_by(email = email).first()
                 if user is not None and user.check_password(request.form['password']):
+                    button="Log Out"
                     login_user(user)
-                    return render_template("base.html")
+                    return render_template("base.html", button=button)
 
                 return render_template('login.html', correct=False, text="Try Again!")
 
