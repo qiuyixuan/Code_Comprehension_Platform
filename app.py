@@ -174,6 +174,10 @@ class Application:
         def tutorials():
             return render_template("tutorials.html")
 
+        @self.flask_app.route('/reference/')
+        def reference():
+            return render_template("references.html")
+
         @self.flask_app.route('/dashboard/')
         def dashboard():
             return render_template("dashboard.html")
