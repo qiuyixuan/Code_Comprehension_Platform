@@ -1,3 +1,4 @@
+from xmlrpc.client import Boolean
 import astroid
 from astroid import nodes
 from typing import TYPE_CHECKING, Optional
@@ -10,7 +11,7 @@ if TYPE_CHECKING:
 
 
 """
-Checks if a get method returns nothing
+Checks if an is method returns a non boolean
 Put this file in <python directory>\Lib\site-packages\pylint\checkers
 """
 
@@ -18,27 +19,27 @@ def register(linter: "PyLinter") -> None:
     """This required method auto registers the checker during initialization.
     :param linter: The linter to register the checker to.
     """
-    linter.register_checker(GetReturns(linter))
+    linter.register_checker(isReturnsNonBool(linter))
 
-class GetReturns(BaseChecker):
+class isReturnsNonBool(BaseChecker):
     __implements__ = IAstroidChecker
 
-    name = "get-returns"
+    name = "is-returns-non-bool"
     msgs = {
-        "C4141": (
-            "Get method returns nothing.",
-            "get-no-return",
-            "A get method should return something.",
+        "C1441": (
+            "Is method returns a non boolean.",
+            "is-returns-non-bool",
+            "An is method should return a boolean.",
         ),
     }
     options = (
         (
-            "ignore-ints",
+            "is-returns-non-bool",
             {
                 "default": False,
                 "type": "yn",
                 "metavar": "<y or n>",
-                "help": "Allow get methods to return nothing",
+                "help": "Allow is methods to return non booleans",
             },
         ),
     )
@@ -56,8 +57,8 @@ class GetReturns(BaseChecker):
         self.funcNames.pop()
     
     def visit_return(self, node: nodes.Return) -> None:
-        if(node.value==None and self.funcNames[-1][:3]=="get"):
-            self.add_message("get-no-return",node = node)
+        if(node.value!=None and type(node.value.value)!=Boolean and self.funcNames[-1][:2]=="is"):
+            self.add_message("is-returns-non-bool",node = node)
 
         self._function_stack[-1].append(node)
     
