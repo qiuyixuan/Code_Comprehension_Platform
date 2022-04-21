@@ -3,6 +3,7 @@ from flask_migrate import Migrate
 from src.pylintTest import PylintTest
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, LoginManager, current_user, login_user
+from werkzeug.security import generate_password_hash, check_password_hash
 import re
 #from src import routes, utils as u
 #from src.models import db
@@ -76,7 +77,7 @@ class Application:
 
         def register_user():
             if current_user.is_authenticated:
-                return render_template("base.html", file_text = file_text, file_io=file_io, suggestions=suggestions, score=score)
+                return render_template("base.html", file_text = file_text)
 
             if request.method == 'POST':
                 email = request.form['email']
@@ -93,14 +94,14 @@ class Application:
 
         def login_acct():
             if current_user.is_authenticated:
-                return render_template("base.html", file_text = file_text, file_io=file_io, suggestions=suggestions, score=score)
+                return render_template("base.html")
 
             if request.method == 'POST':
                 email = request.form['email']
                 user = UserModel.query.filter_by(email = email).first()
                 if user is not None and user.check_password(request.form['password']):
                     login_user(user)
-                    return render_template("base.html", file_text = file_text, file_io=file_io, suggestions=suggestions, score=score)
+                    return render_template("base.html")
 
                 return render_template('login.html')
 
@@ -162,6 +163,7 @@ class Application:
             return render_template("dashboard.html")
 
 app = Application()
+app.flask_app.secret_key = '1248612'
 app.flask_app.debug = True
 # adding configuration for using a sqlite database
 app.flask_app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site2.db'
