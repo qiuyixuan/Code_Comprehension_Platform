@@ -42,10 +42,11 @@
           </li>
         </ul>
 
-        <form class="form-inline my-2 my-lg-0">
+        <form class="form-inline my-2 my-lg-0" action="/login" method="post">
           <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
           <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
           <button class="btn search-btn" type="submit">Search</button>
+          <button class="btn search-btn ml-1" type="submit">{{ button }}</button>
         </form>
       </div>
     </nav>
@@ -93,6 +94,9 @@
           {% endif %}
           {% if s == "Consider using enumerate" %}
             <li><a href="https://vald-phoenix.github.io/pylint-errors/plerr/errors/refactoring/C0200.html">{{ s }}</a></li>
+          {% endif %}
+          {% if "Function name too long" in s%}
+            <li>{{ s }}</li>
           {% endif %}
         {% endfor %}
       </ul>
