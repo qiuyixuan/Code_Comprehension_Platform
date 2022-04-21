@@ -40,10 +40,6 @@
             <!-- <a class="nav-link" href="dashboard/dashboard.html">Dashboard</a> -->
             <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
           </li>
-          <li class="nav-item active">
-            <!-- <a class="nav-link" href="dashboard/dashboard.html">Dashboard</a> -->
-            <a class="nav-link" href="{{ url_for('reference') }}">Reference</a>
-          </li>
         </ul>
 
         <form class="form-inline my-2 my-lg-0" action="/login" method="post">
@@ -54,17 +50,7 @@
         </form>
       </div>
     </nav>
-    <main role="main" class="container p-4 mx-5">
 
-      <form class="form-group"  action="/process" method="post">
-        <label for="inputbox">Paste your code:</label>
-        <textarea class="w-100 form-control pb-3" rows="5" name="codeinput" id="inputbox"></textarea>
-        <button type="submit" value="Submit" class="mt-3 btn btn-primary" id="submit">Submit</button>
-      </form>
-      <div class="container">
-            <pre data-line="" class="line-numbers"><code class="lang-py">{{ file_text }}</code></pre>
-      </div>
-    </main><!-- /.container -->
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -76,42 +62,40 @@
     <script src="../../dist/js/bootstrap.min.js"></script>
 <div class="container px-4 mx-5">
 
-    <div class="output">
-    <p>Output:</p>
-    <button type="button" class="collapsible">Error Messages</button>
-    <div class="content">
-      <p> {{ file_io }} </p>
+    <div class="row">
+      <div class="col-md-6 col-sm-12">
+        <div class="card card-body mb-2">
+          <button type="button" class="collapsible">Naming Conventions</button>
+          <div class="content">
+            Python naming conventions discourage long variable and function names. This function's name is unnecessarily long; we know it will add two numbers by the nature of its parameters. We can easily reduce it.
+            <div class="border-left border-danger"><pre ><code class="lang-py">def thisAddsTwoNumbers(number1, number2):
+    return number1 + number2</code></pre></div>
+            Instead, consider the following:
+            <div class="border-left border-success"><pre ><code class="lang-py">def add(n1, n2):
+    return n1 + n2</code></pre></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <div class="card card-body mb-2">
+          <button type="button" class="collapsible">Naming Conventions</button>
+          <div class="content">
+            lorem ipsum etc etc
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12 mb-2">
+        <div class="card card-body">
+          <button type="button" class="collapsible">Naming Conventions</button>
+          <div class="content">
+            lorem ipsum etc etc
+          </div>
+        </div>
+      </div>
+    </div>
 
-    </div>
-    <button type="button" class="collapsible">Suggestions</button>
-    <div class="content">
-      <ul>
-        {% for s in suggestions %}
-          {% if s == "Indentation" %}
-            <li><a href="https://peps.python.org/pep-0008/#indentation">{{ s }}</a></li>
-          {% endif %}
-          {% if s == "Naming Conventions" %}
-            <li><a href="https://peps.python.org/pep-0008/#naming-conventions">{{ s }}</a></li>
-          {% endif %}
-          {% if s == "Docstrings" %}
-            <li><a href="https://peps.python.org/pep-0008/#documentation-strings">{{ s }}</a></li>
-          {% endif %}
-          {% if s == "Consider using enumerate" %}
-            <li><a href="https://vald-phoenix.github.io/pylint-errors/plerr/errors/refactoring/C0200.html">{{ s }}</a></li>
-          {% endif %}
-          {% if "Function name too long" in s%}
-            <li>{{ s }}</li>
-          {% endif %}
-        {% endfor %}
-      </ul>
-    </div>
-    <button type="button" class="collapsible">Score</button>
-    <div class="content">
-      <p> {{ score }} </p>
-    </div>
-    </div>
+
 </div>
-
     <script>
       var coll = document.getElementsByClassName("collapsible");
       var i;
