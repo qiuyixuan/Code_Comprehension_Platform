@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, url_for, redirect
 from flask_migrate import Migrate
 from src.pylintTest import PylintTest
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, LoginManager, current_user, login_user
+from flask_login import UserMixin, LoginManager, current_user, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 import re
 #from src import routes, utils as u
@@ -62,17 +62,21 @@ class Application:
             fileDict = self.pylintTest.parseOutput()
             return render_template("base.html", file_text = file_text, file_io=file_io, suggestions=suggestions, score=score)
 
+        def logout():
+            logout_user()
+            return redirect('/')
+
         @self.flask_app.route("/login", methods=["POST", "GET"])
         def login_page():
-            return render_template("login.html")
+            if current_user.is_authenticated:
+                return logout()
+            return render_template("login.html", correct=True)
 
         @self.flask_app.route("/register", methods=["POST", "GET"])
         def choose_action():
             if request.form["submit_button"] == "log in":
-                print("Login")
                 return login_acct()
             else:
-                print("register")
                 return register_user()
 
         def register_user():
@@ -90,7 +94,7 @@ class Application:
                 user.set_password(password)
                 db.session.add(user)
                 db.session.commit()
-            return render_template("/login")
+            return render_template("/login", correct=True)
 
         def login_acct():
             if current_user.is_authenticated:
@@ -103,7 +107,7 @@ class Application:
                     login_user(user)
                     return render_template("base.html")
 
-                return render_template('login.html')
+                return render_template('login.html', correct=False, text="Try Again!")
 
         def analyze(file_text):
             file_io = self.pylintTest.analyze(file_text)
@@ -166,6 +170,8 @@ class Application:
         @self.flask_app.route('/dashboard/')
         def dashboard():
             return render_template("dashboard.html")
+
+
 
 app = Application()
 app.flask_app.secret_key = '1248612'
