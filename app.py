@@ -144,10 +144,15 @@ class Application:
 
             for idx in name_indices:
                 paren_idx = idx + string[idx:].index('(')
-                words = camel_case_split(string[idx:paren_idx])
+                # underscore
+                if '_' in string[idx:paren_idx]:
+                    words = string[idx:paren_idx].split('_')
+                # camel case
+                else:
+                    words = camel_case_split(string[idx:paren_idx])
 
                 if len(words) > 7:
-                    warnings.append('More than 7 words in function ' + string[idx:paren_idx])
+                    warnings.append(f'Function name too long: {len(words)} words in ' + string[idx:paren_idx] + '()')
 
             return warnings
 
