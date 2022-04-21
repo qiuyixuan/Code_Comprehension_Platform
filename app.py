@@ -118,7 +118,7 @@ class Application:
         def analyze(file_text):
             file_io = self.pylintTest.analyze(file_text)
             fileDict = self.pylintTest.parseOutput()
-            
+
             score_index =file_io.index('Your code has been rated at')
             len_string = len('Your code has been rated at')
             score = file_io[score_index+len_string:]
@@ -176,7 +176,10 @@ class Application:
 
         @self.flask_app.route('/reference/')
         def reference():
-            return render_template("references.html")
+            button="Log In"
+            if current_user.is_authenticated:
+                button = "Log Out"
+            return render_template("references.html",button=button)
 
         @self.flask_app.route('/dashboard/')
         def dashboard():
