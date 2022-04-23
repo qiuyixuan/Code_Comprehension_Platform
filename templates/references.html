@@ -65,13 +65,17 @@
     <script src="../../assets/js/vendor/popper.min.js"></script>
     <script src="../../dist/js/bootstrap.min.js"></script>
 <div class="container px-4 mx-5">
-  <h2>Reference Guide</h2>
+  <h1>Reference Guide</h1>
   <p>Read about linguistic antipatterns and how to fix them</p>
 
-    <div class="row">
-      <div class="col-md-6 col-sm-12">
-        <div class="card card-body mb-2">
-          <button type="button" class="collapsible">Naming Conventions</button>
+    <div class="row px-4">
+      <h3>Naming Conventions</h3>
+      <p>Providing concise, relevant variable and function names is one of the most important features of good, readable, and maintainable code.</h3>
+
+      <div class="col-md-12 col-sm-12">
+
+        <div class="info-box mb-2">
+          <button type="button" class="collapsible">▼   Variables & Functions</button>
           <div class="content">
             Python naming conventions discourage long variable and function names. This function's name is unnecessarily long; we know it will add two numbers by the nature of its parameters. We can easily reduce it.
             <div class="border-left border-danger"><pre ><code class="lang-py">def thisAddsTwoNumbers(number1, number2):
@@ -82,17 +86,24 @@
           </div>
         </div>
       </div>
-      <div class="col-md-6 col-sm-12">
-        <div class="card card-body mb-2">
-          <button type="button" class="collapsible">Naming Conventions</button>
+      <div class="col-md-12 col-sm-12">
+        <div class="info-box mb-2">
+          <button type="button" class="collapsible">▼   Snake Case</button>
           <div class="content">
-            lorem ipsum etc etc
+            In Python, most educators and developers adhere to a convention called "snake case" for variable and function names, in which all words are lowercase and separated by underscores.
+
+            Using other naming conventions, such as camelcase (capitalizing the first letter of every word after the first word) is not recommended in Python.
+            <div class="border-left border-danger"><pre><code class="lang-py">vegetablesPicked = 17
+vegetablesRemaining = 9</code></pre></div>
+            Using snake case, we can ensure our Python code is neat and consistent, matching any modules we may also incorporate.
+            <div class="border-left border-success"><pre ><code class="lang-py">apples_eaten = 4
+bananas_eaten = 7</code></pre></div>
           </div>
         </div>
       </div>
-      <div class="col-md-6 col-sm-12 mb-2">
-        <div class="card card-body">
-          <button type="button" class="collapsible">Naming Conventions</button>
+      <div class="col-md-12 col-sm-12">
+        <div class="info-box mb-2">
+          <button type="button" class="collapsible">▼   Naming Conventions</button>
           <div class="content">
             lorem ipsum etc etc
           </div>
@@ -112,6 +123,7 @@
           var content = this.nextElementSibling;
           if (content.style.display === "block") {
             content.style.display = "none";
+
           } else {
             content.style.display = "block";
           }
