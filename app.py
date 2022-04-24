@@ -91,14 +91,15 @@ class Application:
                 email = request.form['email']
                 username = request.form['username']
                 password = request.form['password']
-                if UserModel.query.filter_by(email=email):
-                    return ('Email already Present')
+                print("***",UserModel.query.filter_by(email=email),"***")
+                if UserModel.query.filter_by(email=email).count()!=0:
+                    return ('<h1>Please Enter Valid Credentials</h1>')
 
                 user = UserModel(email=email, username=username)
                 user.set_password(password)
                 db.session.add(user)
                 db.session.commit()
-            return render_template("/login", correct=True)
+            return render_template("login.html", correct=True)
 
         def login_acct():
             if current_user.is_authenticated:
