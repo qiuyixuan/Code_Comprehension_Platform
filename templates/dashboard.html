@@ -1,46 +1,108 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <title>Dashboard</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <!-- <link rel="stylesheet" type="text/css" href="./dashboard.css"> -->
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
-    </head>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    <body>
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-            <a class="navbar-brand" href="#">neatCode</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
+    <title>neatCode</title>
 
-            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-              <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                  <a class="nav-link" href="{{ url_for('index') }}" id="home-btn">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item active">
-                  <!-- <a class="nav-link" href="../tutorials/tutorials.html" id="tutorials">Tutorials</a> -->
-                  <a class="nav-link" href="{{ url_for('tutorials') }}">Tutorials</a>
-                </li>
-                <li class="nav-item active">
-                  <!-- <a class="nav-link" href="./dashboard.html" id="dashboard">Dashboard</a> -->
-                  <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
-                </li>
-                <li class="nav-item active">
-                  <!-- <a class="nav-link" href="dashboard/dashboard.html">Dashboard</a> -->
-                  <a class="nav-link" href="{{ url_for('reference') }}">Reference</a>
-                </li>
-              </ul>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-              <form class="form-inline my-2 my-lg-0" action="/login" method="post">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
-                <button class="btn search-btn" type="submit">Search</button>
-                <button class="btn search-btn ml-1" type="submit">{{ button }}</button>
-              </form>
-            </div>
-          </nav>
+    <!-- Custom styles for this template -->
+    <!-- <link href="static/css/base.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="base.css">
+    <link href="static/css/prism.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/prism.css') }}">
+  </head>
 
-    </body>
+  <body>
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <a class="navbar-brand" href="#">neatCode</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('index') }}" id="home-btn">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item active">
+            <!-- <a class="nav-link" href="tutorials/tutorials.html">Tutorials</a> -->
+            <a class="nav-link" href="{{ url_for('tutorials') }}">Tutorials</a>
+          </li>
+          <li class="nav-item active">
+            <!-- <a class="nav-link" href="dashboard/dashboard.html">Dashboard</a> -->
+            <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+          </li>
+          <li class="nav-item active">
+            <!-- <a class="nav-link" href="dashboard/dashboard.html">Dashboard</a> -->
+            <a class="nav-link" href="{{ url_for('reference') }}">Reference</a>
+          </li>
+        </ul>
+
+        <form class="form-inline my-2 my-lg-0" action="/login" method="post">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+          <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
+          <button class="btn search-btn" type="submit">Search</button>
+          <button class="btn search-btn ml-1" type="submit">{{ button }}</button>
+        </form>
+      </div>
+    </nav>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/static/js/prism.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="../../assets/js/vendor/popper.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+<div class="container px-4 mx-5">
+
+
+
+ <div class="row">
+   <div class="col-lg-3 p-3">
+     <img class="img-fluid rounded" src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fpluspng.com%2Fimg-png%2Fpng-user-icon-circled-user-icon-2240.png&f=1&nofb=1">
+  </div>
+  <div class="col-lg-9 py-5">
+    <h3>Name:</h3>
+    <h3>Username:</h3>
+    <h3>Email:</h3>
+    <h3>Level:</h3>
+  </div>
+</div>
+<div class="progress my-5">
+ <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="70"
+ aria-valuemin="0" aria-valuemax="100" style="width:70%">
+   <span class="sr-only">70% Complete</span>
+ </div>
+</div>
+</div>
+    <script>
+      var coll = document.getElementsByClassName("collapsible");
+      var i;
+
+      for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+          this.classList.toggle("active");
+          var content = this.nextElementSibling;
+          if (content.style.display === "block") {
+            content.style.display = "none";
+
+          } else {
+            content.style.display = "block";
+          }
+        });
+      }
+      </script>
+
+  </body>
 </html>
