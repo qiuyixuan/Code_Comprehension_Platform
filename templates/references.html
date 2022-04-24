@@ -75,7 +75,7 @@
       <div class="col-md-12 col-sm-12">
 
         <div class="info-box mb-2">
-          <button type="button" class="collapsible">▼   Identifier Length</button>
+          <button type="button" class="collapsible">▶   Identifier Length</button>
           <div class="content">
             Python naming conventions discourage long identifiers. This function's name is unnecessarily long; we know it will add two numbers by the nature of its parameters. We can easily reduce it.
             <div class="border-left border-danger"><pre ><code class="lang-py">def thisAddsTwoNumbers(number1, number2):
@@ -88,7 +88,7 @@
       </div>
       <div class="col-md-12 col-sm-12">
         <div class="info-box mb-2">
-          <button type="button" class="collapsible">▼   Snake Case</button>
+          <button type="button" class="collapsible">▶   Snake Case</button>
           <div class="content">
             In Python, most educators and developers adhere to a convention called "snake case" for variable and function names, in which all words are lowercase and separated by underscores.
 
@@ -103,7 +103,7 @@ bananas_eaten = 7</code></pre></div>
       </div>
       <div class="col-md-12 col-sm-12">
         <div class="info-box mb-2">
-          <button type="button" class="collapsible">▼   Class Names</button>
+          <button type="button" class="collapsible">▶   Class Names</button>
           <div class="content">
             Unlike variable and function identifiers, Python user-defined class names should follow the capwords naming convention (the first letter of each word should be capitalized):
             <div class="border-left border-success"><pre ><code class="lang-py">class CountApples(Apple):</code></pre></div>
@@ -119,7 +119,7 @@ bananas_eaten = 7</code></pre></div>
       <div class="col-md-12 col-sm-12">
 
         <div class="info-box mb-2">
-          <button type="button" class="collapsible">▼   "Set" Method Returns</button>
+          <button type="button" class="collapsible">▶   "Set" Method Returns</button>
           <div class="content">
             When we are writing "setter" methods, we don't want them to return anything; they should simply set a property to the provided parameter. A common linguistic antipattern occurs when there is anything returned in this method, which should always be void.
             <div class="border-left border-danger"><pre ><code class="lang-py">def set_name(self, name):
@@ -132,7 +132,7 @@ bananas_eaten = 7</code></pre></div>
         </div>
 
         <div class="info-box mb-2">
-          <button type="button" class="collapsible">▼   "Get" Method More Than Accessor</button>
+          <button type="button" class="collapsible">▶   "Get" Method More Than Accessor</button>
           <div class="content">
             "Get" methods should always be simple, one-line functions that return the requested value and nothing more. A bad "getter" performs other operations in addition to this.
             <div class="border-left border-danger"><pre ><code class="lang-py">def get_count(self):
@@ -147,7 +147,7 @@ bananas_eaten = 7</code></pre></div>
         </div>
 
         <div class="info-box mb-2">
-          <button type="button" class="collapsible">▼   "Get" Method Does Not Return</button>
+          <button type="button" class="collapsible">▶   "Get" Method Does Not Return</button>
           <div class="content">
             "Get" methods should always return something. If a "getter" is void, it can't help us access the variable we're requesting, which will create errors later.
             <div class="border-left border-danger"><pre ><code class="lang-py">def get_video_url(self):
@@ -159,7 +159,7 @@ bananas_eaten = 7</code></pre></div>
         </div>
 
         <div class="info-box mb-2">
-          <button type="button" class="collapsible">▼   "Is" Method Returns Non-boolean</button>
+          <button type="button" class="collapsible">▶   "Is" Method Returns Non-boolean</button>
           <div class="content">
             A method with "is" in its identifier implies that it will return a boolean value. If it returns a value that is not True or False, it is incorrectly named. The following method returns a number instead of a boolean:
             <div class="border-left border-danger"><pre ><code class="lang-py">def is_alive(self):
@@ -173,20 +173,43 @@ bananas_eaten = 7</code></pre></div>
         </div>
 
         <div class="info-box mb-2">
-          <button type="button" class="collapsible">▼   Not answered question</button>
+          <button type="button" class="collapsible">▶   Not answered question</button>
           <div class="content">
-            The name of a method is in the form of predicate whereas the return type is not Boolean.
+            The name of a method is in the form of predicate whereas the return type is not Boolean.<br><br>
             Example: method is_alive does not return.
             <div class="border-left border-danger"><pre ><code class="lang-py">def is_alive(self):
     if self.status == 0:
         self.status = 1
             </code></pre></div>
-            Make the method return a Boolean.
+            Make the method return a Boolean:
             <div class="border-left border-success"><pre ><code class="lang-py">def is_alive(self):
     if self.status == 0:
       return True
     else:
       return False</code></pre></div>
+          </div>
+        </div>
+
+        <div class="info-box mb-2">
+          <button type="button" class="collapsible">▶   Method signature and comment are opposite</button>
+          <div class="content">
+          The documentation of a method is in contradiction with its declaration.<br><br>
+          Example: method is_alive is in contradiction with its comment documenting “is dead”, as “alive” and “dead” are antonyms.  
+            <div class="border-left border-danger"><pre ><code class="lang-py">def is_alive(self):
+      ''' returns True if the cell is dead '''
+      if self.status == 0:
+        return True
+      else:
+        return False
+            </code></pre></div>
+          Make method name and docstring consistent:
+            <div class="border-left border-success"><pre ><code class="lang-py">def is_alive(self):
+      ''' returns True if the cell is alive '''
+      if self.status == 0:
+        return True
+      else:
+        return False
+            </code></pre></div>
           </div>
         </div>
 
