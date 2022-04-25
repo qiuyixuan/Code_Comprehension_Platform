@@ -112,6 +112,126 @@ bananas_eaten = 7</code></pre></div>
       </div>
     </div>
 
+      <div class="row px-4 my-3">
+        <h3>Code Layout</h3>
+
+      <div class="col-md-12 col-sm-12">
+        <div class="info-box mb-2">
+          <button type="button" class="collapsible">▶   Blank lines</button>
+          <div class="content">
+            Surround top-level function and class definitions with two blank lines. <br>
+            Method definitions inside a class are surrounded by a single blank line.
+            <div class="border-left border-success"><pre ><code class="lang-py">class Dog:
+  def __init__(self, name):
+    self.name = name
+    self.tricks = []
+
+  def add_trick(self, trick):
+    self.tricks.append(trick)
+
+
+class Cat:
+  def __init__(self, name):
+    self.name = name</code></pre></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12 col-sm-12">
+        <div class="info-box mb-2">
+          <button type="button" class="collapsible">▶   Imports</button>
+          <div class="content">
+            Imports should usually be on separate lines:
+            <div class="border-left border-danger"><pre ><code class="lang-py">import sys, os</code></pre></div>
+            <div class="border-left border-success"><pre ><code class="lang-py">import os
+import sys</code></pre></div>
+            It’s okay to say this though:
+            <div class="border-left border-success"><pre ><code class="lang-py">from subprocess import Popen, PIPE</code></pre></div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12 col-sm-12">
+        <div class="info-box mb-2">
+          <button type="button" class="collapsible">▶   Break before binary operators</button>
+          <div class="content">
+            Operators sit far away from their operands:
+            <div class="border-left border-danger"><pre ><code class="lang-py">income = (gross_wages +
+          taxable_interest +
+          (dividends - qualified_dividends) -
+          ira_deduction -
+          student_loan_interest)</code></pre></div>
+            Easy to match operators with operands:
+            <div class="border-left border-success"><pre ><code class="lang-py">income = (gross_wages
+          + taxable_interest
+          + (dividends - qualified_dividends)
+          - ira_deduction
+          - student_loan_interest)</code></pre></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row px-4 my-3">
+      <h3>Whitespace</h3>
+
+      <div class="col-md-12 col-sm-12">
+        <div class="info-box mb-2">
+          <button type="button" class="collapsible">▶   Avoid extraneous whitespace</button>
+          <div class="content">
+            Avoid whitespace immediately inside parentheses, brackets or braces.<br><br>
+            Wrong:
+            <div class="border-left border-danger"><pre ><code class="lang-py">spam( ham[ 1 ], { eggs: 2 } )</code></pre></div>
+            Correct:
+            <div class="border-left border-success"><pre ><code class="lang-py">spam(ham[1], {eggs: 2})</code></pre></div>
+            <br>Avoid whitespace between a trailing comma and a following close parenthesis.<br><br>
+            Wrong:
+            <div class="border-left border-danger"><pre ><code class="lang-py">bar = (0, )</code></pre></div>
+            Correct:
+            <div class="border-left border-success"><pre ><code class="lang-py">foo = (0,)</code></pre></div>
+          </div>
+      </div>
+      </div>
+
+      <div class="col-md-12 col-sm-12">
+        <div class="info-box mb-2">
+          <button type="button" class="collapsible">▶   Add whitespace around the operators</button>
+          <div class="content">
+            <ul>
+            <li>Consider adding whitespace around the operators with the lowest priority(ies).</li>
+            <br>
+            Wrong:
+            <div class="border-left border-danger"><pre ><code class="lang-py">hypot2 = x * x + y * y
+c = (a + b) * (a - b)</code></pre></div>
+            
+            Correct:
+              <div class="border-left border-success"><pre ><code class="lang-py">hypot2 = x*x + y*y
+c = (a+b) * (a-b)</code></pre></div>
+            <br>
+            <li>Never use more than one space.</li>
+            <br>
+            Wrong:
+            <div class="border-left border-danger"><pre ><code class="lang-py">i  =  i  +  1</code></pre></div>
+            
+            Correct:
+              <div class="border-left border-success"><pre ><code class="lang-py">i = i + 1</code></pre></div>
+              <br>
+            <li>Always have the same amount of whitespace on both sides of a binary operator.</li>
+            <br>
+            Wrong:
+            <div class="border-left border-danger"><pre ><code class="lang-py">submitted +=1</code></pre></div>
+            
+            Correct:
+              <div class="border-left border-success"><pre ><code class="lang-py">submitted += 1</code></pre></div>
+            </ul>
+          </div>
+      </div>
+      </div>
+
+    </div>
+      
+
     <div class="row px-4 my-3">
       <h3>Linguistic Antipatterns</h3>
       <p>Although LAs will not result in errors or make a program fail to compile, they are considered poor-practice and make programs less readable and harder to maintain.</p>
