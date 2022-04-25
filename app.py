@@ -64,7 +64,10 @@ class Application:
             file_text = request.form.get("codeinput")
             file_io, suggestions, score = analyze(file_text)
             fileDict = self.pylintTest.parseOutput()
-            return render_template("base.html", file_text = file_text, file_io=file_io, suggestions=suggestions, score=score)
+            button="Log In"
+            if current_user.is_authenticated:
+                button = "Log Out"
+            return render_template("base.html", file_text = file_text, button=button, file_io=file_io, suggestions=suggestions, score=score)
 
         def setup_user(user):
             user.level = 1
