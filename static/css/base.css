@@ -79,7 +79,7 @@ h1, h3 {
   font-weight: bold;
 }
 
-.collapsible:after {
+.output.collapsible:after {
   content: '\02795';
   font-size: 13px;
   color: white;
@@ -87,6 +87,20 @@ h1, h3 {
   margin-left: 5px;
 }
 
-.active:after {
+.output.active:after {
   content: "\2796";
+  color: white;
+}
+
+#ref.collapsible:after {
+  content: '\25B6';
+  font-size: 13px;
+  color: white;
+  float: left;
+  margin-left: 5px;
+}
+
+#ref.active:after {
+  content: "\25BC";
+  color: white;
 }
