@@ -75,7 +75,7 @@
       <div class="col-md-12 col-sm-12">
 
         <div class="info-box mb-2">
-          <button type="button" class="collapsible">▶   Identifier Length</button>
+          <button type="button" class="collapsible">&nbsp;&nbsp;Identifier Length</button>
           <div class="content">
             Python naming conventions discourage long identifiers. This function's name is unnecessarily long; we know it will add two numbers by the nature of its parameters. We can easily reduce it.
             <div class="border-left border-danger"><pre ><code class="lang-py">def thisAddsTwoNumbers(number1, number2):
@@ -88,7 +88,7 @@
       </div>
       <div class="col-md-12 col-sm-12">
         <div class="info-box mb-2">
-          <button type="button" class="collapsible">▶   Snake Case</button>
+          <button type="button" class="collapsible">&nbsp;&nbsp;Snake Case</button>
           <div class="content">
             In Python, most educators and developers adhere to a convention called "snake case" for variable and function names, in which all words are lowercase and separated by underscores.
 
@@ -103,7 +103,7 @@ bananas_eaten = 7</code></pre></div>
       </div>
       <div class="col-md-12 col-sm-12">
         <div class="info-box mb-2">
-          <button type="button" class="collapsible">▶   Class Names</button>
+          <button type="button" class="collapsible">&nbsp;&nbsp;Class Names</button>
           <div class="content">
             Unlike variable and function identifiers, Python user-defined class names should follow the capwords naming convention (the first letter of each word should be capitalized):
             <div class="border-left border-success"><pre ><code class="lang-py">class CountApples(Apple):</code></pre></div>
@@ -117,7 +117,7 @@ bananas_eaten = 7</code></pre></div>
 
       <div class="col-md-12 col-sm-12">
         <div class="info-box mb-2">
-          <button type="button" class="collapsible">▶   Blank lines</button>
+          <button type="button" class="collapsible">&nbsp;&nbsp;Blank lines</button>
           <div class="content">
             Surround top-level function and class definitions with two blank lines. <br>
             Method definitions inside a class are surrounded by a single blank line.
@@ -139,7 +139,7 @@ class Cat:
 
       <div class="col-md-12 col-sm-12">
         <div class="info-box mb-2">
-          <button type="button" class="collapsible">▶   Imports</button>
+          <button type="button" class="collapsible">&nbsp;&nbsp;Imports</button>
           <div class="content">
             Imports should usually be on separate lines:
             <div class="border-left border-danger"><pre ><code class="lang-py">import sys, os</code></pre></div>
@@ -154,7 +154,7 @@ import sys</code></pre></div>
 
       <div class="col-md-12 col-sm-12">
         <div class="info-box mb-2">
-          <button type="button" class="collapsible">▶   Break before binary operators</button>
+          <button type="button" class="collapsible">&nbsp;&nbsp;Break before binary operators</button>
           <div class="content">
             Operators sit far away from their operands:
             <div class="border-left border-danger"><pre ><code class="lang-py">income = (gross_wages +
@@ -178,7 +178,7 @@ import sys</code></pre></div>
 
       <div class="col-md-12 col-sm-12">
         <div class="info-box mb-2">
-          <button type="button" class="collapsible">▶   Avoid extraneous whitespace</button>
+          <button type="button" class="collapsible">&nbsp;&nbsp;Avoid extraneous whitespace</button>
           <div class="content">
             Avoid whitespace immediately inside parentheses, brackets or braces.<br><br>
             Wrong:
@@ -196,7 +196,7 @@ import sys</code></pre></div>
 
       <div class="col-md-12 col-sm-12">
         <div class="info-box mb-2">
-          <button type="button" class="collapsible">▶   Add whitespace around the operators</button>
+          <button type="button" class="collapsible">&nbsp;&nbsp;Add whitespace around the operators</button>
           <div class="content">
             <ul>
             <li>Consider adding whitespace around the operators with the lowest priority(ies).</li>
@@ -239,7 +239,7 @@ c = (a+b) * (a-b)</code></pre></div>
       <div class="col-md-12 col-sm-12">
 
         <div class="info-box mb-2">
-          <button type="button" class="collapsible">▶   "Set" Method Returns</button>
+          <button type="button" class="collapsible">&nbsp;&nbsp;"Set" Method Returns</button>
           <div class="content">
             When we are writing "setter" methods, we don't want them to return anything; they should simply set a property to the provided parameter. A common linguistic antipattern occurs when there is anything returned in this method, which should always be void.
             <div class="border-left border-danger"><pre ><code class="lang-py">def set_name(self, name):
@@ -252,7 +252,7 @@ c = (a+b) * (a-b)</code></pre></div>
         </div>
 
         <div class="info-box mb-2">
-          <button type="button" class="collapsible">▶   "Get" Method More Than Accessor</button>
+          <button type="button" class="collapsible">&nbsp;&nbsp;"Get" Method More Than Accessor</button>
           <div class="content">
             "Get" methods should always be simple, one-line functions that return the requested value and nothing more. A bad "getter" performs other operations in addition to this.
             <div class="border-left border-danger"><pre ><code class="lang-py">def get_count(self):
@@ -267,7 +267,7 @@ c = (a+b) * (a-b)</code></pre></div>
         </div>
 
         <div class="info-box mb-2">
-          <button type="button" class="collapsible">▶   "Get" Method Does Not Return</button>
+          <button type="button" class="collapsible">&nbsp;&nbsp;"Get" Method Does Not Return</button>
           <div class="content">
             "Get" methods should always return something. If a "getter" is void, it can't help us access the variable we're requesting, which will create errors later.
             <div class="border-left border-danger"><pre ><code class="lang-py">def get_video_url(self):
@@ -279,7 +279,7 @@ c = (a+b) * (a-b)</code></pre></div>
         </div>
 
         <div class="info-box mb-2">
-          <button type="button" class="collapsible">▶   "Is" Method Returns Non-boolean</button>
+          <button type="button" class="collapsible">&nbsp;&nbsp;"Is" Method Returns Non-boolean</button>
           <div class="content">
             A method with "is" in its identifier implies that it will return a boolean value. If it returns a value that is not True or False, it is incorrectly named. The following method returns a number instead of a boolean:
             <div class="border-left border-danger"><pre ><code class="lang-py">def is_alive(self):
@@ -293,7 +293,7 @@ c = (a+b) * (a-b)</code></pre></div>
         </div>
 
         <div class="info-box mb-2">
-          <button type="button" class="collapsible">▶   Not answered question</button>
+          <button type="button" class="collapsible">&nbsp;&nbsp;Not answered question</button>
           <div class="content">
             The name of a method is in the form of predicate whereas the return type is not Boolean.<br><br>
             Example: method is_alive does not return.
@@ -311,7 +311,7 @@ c = (a+b) * (a-b)</code></pre></div>
         </div>
 
         <div class="info-box mb-2">
-          <button type="button" class="collapsible">▶   Method signature and comment are opposite</button>
+          <button type="button" class="collapsible">&nbsp;&nbsp;Method signature and comment are opposite</button>
           <div class="content">
           The documentation of a method is in contradiction with its declaration.<br><br>
           Example: method is_alive is in contradiction with its comment documenting “is dead”, as “alive” and “dead” are antonyms.  
@@ -336,8 +336,8 @@ c = (a+b) * (a-b)</code></pre></div>
       </div>
     </div>
 
-
 </div>
+
     <script>
       var coll = document.getElementsByClassName("collapsible");
       var i;
