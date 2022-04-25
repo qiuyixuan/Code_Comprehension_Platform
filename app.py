@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, LoginManager, current_user, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 import re
+import random
 #from src import routes, utils as u
 #from src.models import db
 #from src.settings import Settings as S
@@ -66,7 +67,11 @@ class Application:
             return render_template("base.html", file_text = file_text, file_io=file_io, suggestions=suggestions, score=score)
 
         def setup_user(user):
-            pass
+            user.level = 1
+            user.xp = 0
+            user.name = ""
+            num = random.randint(1,7)
+            user.icon = "{}.png".format(num)
 
         def logout():
             logout_user()
@@ -191,10 +196,11 @@ class Application:
 
         @self.flask_app.route('/dashboard/')
         def dashboard():
-            button="Log In"
-            if current_user.is_authenticated:
-                button = "Log Out"
-            return render_template("dashboard.html", button=button)
+            button="Log Out"
+            if not current_user.is_authenticated:
+                return login_page()
+
+            return render_template("dashboard.html", button=button, email=current_user.email, name=current_user.username,level=current_user.level,xp=current_user.xp, icon=current_user.icon)
 
 
 
@@ -202,7 +208,7 @@ app = Application()
 app.flask_app.secret_key = '1248612'
 app.flask_app.debug = True
 # adding configuration for using a sqlite database
-app.flask_app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site2.db'
+app.flask_app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site3.db'
 app.flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app.flask_app)
@@ -230,16 +236,18 @@ class UserModel(UserMixin, db.Model):
     email = db.Column(db.String(80), unique=True)
     username = db.Column(db.String(100))
     password_hash = db.Column(db.String())
-    '''level = db.Column(db.Integer)
+    level = db.Column(db.Integer)
     xp = db.Column(db.Integer)
     name = db.Column(db.String(40))
-    icon = db.Column(db.String(40))'''
+    icon = db.Column(db.String(40))
     def set_password(self,password):
         self.password_hash = generate_password_hash(password)
 
     def check_password(self,password):
         return check_password_hash(self.password_hash,password)
 
+def get_user_by_email(email):
+    return UserModel.query.filter_by(email=email)
 
 @login.user_loader
 def load_user(id):
