@@ -73,3 +73,8 @@ a:hover {
 .form-group {
   font-family:'Courier New';
 }
+
+h1, h3 {
+  font-family:'Courier New';
+  font-weight: bold;
+}
