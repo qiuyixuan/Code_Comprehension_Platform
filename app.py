@@ -205,6 +205,12 @@ class Application:
 
             return render_template("dashboard.html", button=button, email=current_user.email, name=current_user.username,level=current_user.level,xp=current_user.xp, icon=current_user.icon)
 
+        @self.flask_app.route('/quiz1', methods=["POST", "GET"])
+        def quiz1():
+            button="Log Out"
+            if not current_user.is_authenticated:
+                return login_page()
+            return render_template("quizzes/quiz1.html", button=button)
 
 
 app = Application()
