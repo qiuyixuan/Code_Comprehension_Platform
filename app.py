@@ -160,8 +160,12 @@ class Application:
             suggestions += warnings
 
             # Check get method does not return
-            warning = check_get_not_return(file_text)
-            suggestions += warning
+            warnings_1 = check_get_not_return(file_text)
+            suggestions += warnings_1
+
+            # Check get method does not return
+            warnings_2 = check_set_returns(file_text)
+            suggestions += warnings_2
 
             return file_io, suggestions, score
 
@@ -188,7 +192,7 @@ class Application:
             return re.findall(r'[a-zA-Z](?:[a-z]+|[A-Z]*(?=[A-Z]|$))', str)
 
         def check_get_not_return(string):
-            warning = []
+            warnings = []
             def_indices = [m.start() for m in re.finditer('def', string)]
             name_indices = [i + 4 for i in def_indices]
 
@@ -198,12 +202,30 @@ class Application:
                 if len(def_indices) > i+1:
                     next_def_idx = def_indices[i+1]
                     if 'get' in string[idx:paren_idx] and 'return' not in string[paren_idx:next_def_idx]:
-                        warning.append('"Get" method does not return')
+                        warnings.append('"Get" method does not return')
                 else:
                     if 'get' in string[idx:paren_idx] and 'return' not in string[paren_idx:]:
-                        warning.append('"Get" method does not return')
+                        warnings.append('"Get" method does not return')
 
-            return warning
+            return warnings
+
+        def check_set_returns(string):
+            warnings = []
+            def_indices = [m.start() for m in re.finditer('def', string)]
+            name_indices = [i + 4 for i in def_indices]
+
+            for i in range(len(name_indices)):
+                idx = name_indices[i]
+                paren_idx = idx + string[idx:].index('(')
+                if len(def_indices) > i+1:
+                    next_def_idx = def_indices[i+1]
+                    if 'set' in string[idx:paren_idx] and 'return' in string[paren_idx:next_def_idx]:
+                        warnings.append('"Set" method returns')
+                else:
+                    if 'set' in string[idx:paren_idx] and 'return' in string[paren_idx:]:
+                        warnings.append('"Set" method returns')
+
+            return warnings
 
         @self.flask_app.route('/tutorials/')
         def tutorials():
