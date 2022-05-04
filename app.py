@@ -192,11 +192,16 @@ class Application:
             def_indices = [m.start() for m in re.finditer('def', string)]
             name_indices = [i + 4 for i in def_indices]
 
-            
-            for idx in name_indices:
+            for i in range(len(name_indices)):
+                idx = name_indices[i]
                 paren_idx = idx + string[idx:].index('(')
-                if 'get' in string[idx:paren_idx] and 'return' not in string[paren_idx:]:
-                    warning.append('"Get" method does not return')
+                if len(def_indices) > i+1:
+                    next_def_idx = def_indices[i+1]
+                    if 'get' in string[idx:paren_idx] and 'return' not in string[paren_idx:next_def_idx]:
+                        warning.append('"Get" method does not return')
+                else:
+                    if 'get' in string[idx:paren_idx] and 'return' not in string[paren_idx:]:
+                        warning.append('"Get" method does not return')
 
             return warning
 
