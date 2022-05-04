@@ -105,6 +105,9 @@
           {% if "method does not return" in s%}
             <li>{{ s }}</li>
           {% endif %}
+          {% if "method returns" in s%}
+            <li>{{ s }}</li>
+          {% endif %}
         {% endfor %}
       </ul>
     </div>
