@@ -159,6 +159,10 @@ class Application:
             warnings = check_function_name_length(file_text)
             suggestions += warnings
 
+            # Check get method does not return
+            warning = check_get_not_return(file_text)
+            suggestions += warning
+
             return file_io, suggestions, score
 
         def check_function_name_length(string):
@@ -182,6 +186,19 @@ class Application:
 
         def camel_case_split(str):
             return re.findall(r'[a-zA-Z](?:[a-z]+|[A-Z]*(?=[A-Z]|$))', str)
+
+        def check_get_not_return(string):
+            warning = []
+            def_indices = [m.start() for m in re.finditer('def', string)]
+            name_indices = [i + 4 for i in def_indices]
+
+            
+            for idx in name_indices:
+                paren_idx = idx + string[idx:].index('(')
+                if 'get' in string[idx:paren_idx] and 'return' not in string[paren_idx:]:
+                    warning.append('"Get" method does not return')
+
+            return warning
 
         @self.flask_app.route('/tutorials/')
         def tutorials():
