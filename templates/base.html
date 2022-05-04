@@ -102,6 +102,9 @@
           {% if "Function name too long" in s%}
             <li>{{ s }}</li>
           {% endif %}
+          {% if "method does not return" in s%}
+            <li>{{ s }}</li>
+          {% endif %}
         {% endfor %}
       </ul>
     </div>
