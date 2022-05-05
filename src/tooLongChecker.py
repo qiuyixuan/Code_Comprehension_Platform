@@ -50,7 +50,7 @@ class MethodTooLong(BaseChecker):
     def visit_functiondef(self, node: nodes.FunctionDef) -> None:
         self._function_stack.append([])
         self.funcNames.append(node.name)
-        if(len(self.funcNames[-1])>12):
+        if(len(self.funcNames[-1])>7):
             self.add_message("method-too-long",node = node)
 
 
