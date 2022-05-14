@@ -1,0 +1,106 @@
+body {
+  padding-top: 5rem;
+}
+
+/* .starter-template {
+  padding: 3rem 1.5rem;
+  text-align: center;
+} */
+
+.nav-link {
+  background-color: rgb(157, 103, 157);
+}
+
+#home-btn {
+  background-color: rgb(133, 69, 133);
+}
+
+#submit {
+  background-color: rgb(125, 34, 125, 0.6);
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.collapsible {
+  background-color: rgba(125, 34, 125, 0.6);
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  font-family:'Courier New';
+}
+
+.active, .collapsible:hover, #submit:hover {
+  background-color: rgba(125, 34, 125, 0.8);
+}
+
+.content {
+  padding:0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
+
+.output {
+  padding-right: 50px;
+  padding-bottom: 50px;
+  font-family:'Courier New';
+}
+
+.search-btn {
+  color: rgba(125, 34, 125, 0.8);
+  background-color: #f1f1f1;
+}
+
+a:link, a:visited {
+  text-decoration: none;
+  color: black;
+}
+
+a:hover { 
+  color:rgb(133, 69, 133);
+  font-weight: bold;
+}
+
+.form-group {
+  font-family:'Courier New';
+}
+
+h1, h3 {
+  font-family:'Courier New';
+  font-weight: bold;
+}
+
+.output .collapsible:after {
+  content: '\02795';
+  font-size: 13px;
+  color: white;
+  float: right;
+  margin-left: 5px;
+}
+
+.output .active:after {
+  content: "\2796";
+  color: white;
+}
+
+#ref .collapsible:after {
+  content: '\25B6';
+  font-size: 13px;
+  color: white;
+  float: left;
+  margin-left: 5px;
+}
+
+#ref .active:after {
+  content: "\25BC";
+  color: white;
+}

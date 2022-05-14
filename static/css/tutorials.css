@@ -1,0 +1,38 @@
+body {
+    padding-top: 5rem;
+  }
+  
+.nav-link {
+background-color: rgb(157, 103, 157);
+}
+
+#tutorials {
+    background-color:rgb(133, 69, 133);
+}
+
+.search-btn {
+    color: rgba(125, 34, 125, 0.8);
+    background-color: #f1f1f1;
+}
+
+.lessons {
+    padding-left: 8rem;
+    padding-top: 5rem;
+    font-family:'Courier New';
+    font-size: 18px;
+}
+
+.lessons strong {
+    font-size: 22px;
+    color:rgb(157, 103, 157);
+}
+
+a:link, a:visited {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover { 
+    color:rgb(133, 69, 133);
+    font-weight: bold;
+}
