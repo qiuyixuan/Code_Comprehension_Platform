@@ -10,3 +10,6 @@ def test3():
 
 def isEven():
     return 1
+
+def bigLongAssMethodName():
+    return
