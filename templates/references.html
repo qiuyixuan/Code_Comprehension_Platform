@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>neatCode</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <!-- <link href="static/css/base.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="base.css">
+    <link href="static/css/prism.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/prism.css') }}">
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <a class="navbar-brand" href="#">neatCode</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('index') }}" id="home-btn">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item active">
+            <!-- <a class="nav-link" href="tutorials/tutorials.html">Tutorials</a> -->
+            <a class="nav-link" href="{{ url_for('tutorials') }}">Tutorials</a>
+          </li>
+          <li class="nav-item active">
+            <!-- <a class="nav-link" href="dashboard/dashboard.html">Dashboard</a> -->
+            <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+          </li>
+          <li class="nav-item active">
+            <!-- <a class="nav-link" href="dashboard/dashboard.html">Dashboard</a> -->
+            <a class="nav-link" href="{{ url_for('reference') }}">Reference</a>
+          </li>
+        </ul>
+
+        <form class="form-inline my-2 my-lg-0" action="/login" method="post">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+          <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
+          <button class="btn search-btn" type="submit">Search</button>
+          <button class="btn search-btn ml-1" type="submit">{{ button }}</button>
+        </form>
+      </div>
+    </nav>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/static/js/prism.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="../../assets/js/vendor/popper.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+<div class="container px-4 mx-5" id ="ref">
+  <h1>Reference Guide</h1>
+  <p></p>
+
+    <div class="row px-4 my-3">
+      <h3>Naming Conventions</h3>
+      <p>Providing concise, relevant variable and function names is one of the most important features of good, readable, and maintainable code.</p>
+
+      <div class="col-md-12 col-sm-12">
+
+        <div class="info-box mb-2">
+          <button type="button" class="collapsible">&nbsp;&nbsp;Identifier Length</button>
+          <div class="content">
+            Python naming conventions discourage long identifiers. This function's name is unnecessarily long; we know it will add two numbers by the nature of its parameters. We can easily reduce it.
+            <div class="border-left border-danger"><pre ><code class="lang-py">def thisAddsTwoNumbers(number1, number2):
+    return number1 + number2</code></pre></div>
+            Instead, consider the following:
+            <div class="border-left border-success"><pre ><code class="lang-py">def add(n1, n2):
+    return n1 + n2</code></pre></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 col-sm-12">
+        <div class="info-box mb-2">
+          <button type="button" class="collapsible">&nbsp;&nbsp;Snake Case</button>
+          <div class="content">
+            In Python, most educators and developers adhere to a convention called "snake case" for variable and function names, in which all words are lowercase and separated by underscores.
+
+            Using other naming conventions, such as camelcase/mixedcase (capitalizing the first letter of every word after the first word) is not recommended in Python.
+            <div class="border-left border-danger"><pre><code class="lang-py">vegetablesPicked = 17
+vegetablesRemaining = 9</code></pre></div>
+            Using snake case, we can ensure our Python code is neat and consistent, matching any modules we may also incorporate.
+            <div class="border-left border-success"><pre ><code class="lang-py">apples_eaten = 4
+bananas_eaten = 7</code></pre></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 col-sm-12">
+        <div class="info-box mb-2">
+          <button type="button" class="collapsible">&nbsp;&nbsp;Class Names</button>
+          <div class="content">
+            Unlike variable and function identifiers, Python user-defined class names should follow the capwords naming convention (the first letter of each word should be capitalized):
+            <div class="border-left border-success"><pre ><code class="lang-py">class CountApples(Apple):</code></pre></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <div class="row px-4 my-3">
+        <h3>Code Layout</h3>
+
+      <div class="col-md-12 col-sm-12">
+        <div class="info-box mb-2">
+          <button type="button" class="collapsible">&nbsp;&nbsp;Blank lines</button>
+          <div class="content">
+            Surround top-level function and class definitions with two blank lines. <br>
+            Method definitions inside a class are surrounded by a single blank line.
+            <div class="border-left border-success"><pre ><code class="lang-py">class Dog:
+  def __init__(self, name):
+    self.name = name
+    self.tricks = []
+
+  def add_trick(self, trick):
+    self.tricks.append(trick)
+
+
+class Cat:
+  def __init__(self, name):
+    self.name = name</code></pre></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12 col-sm-12">
+        <div class="info-box mb-2">
+          <button type="button" class="collapsible">&nbsp;&nbsp;Imports</button>
+          <div class="content">
+            Imports should usually be on separate lines:
+            <div class="border-left border-danger"><pre ><code class="lang-py">import sys, os</code></pre></div>
+            <div class="border-left border-success"><pre ><code class="lang-py">import os
+import sys</code></pre></div>
+            It’s okay to say this though:
+            <div class="border-left border-success"><pre ><code class="lang-py">from subprocess import Popen, PIPE</code></pre></div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12 col-sm-12">
+        <div class="info-box mb-2">
+          <button type="button" class="collapsible">&nbsp;&nbsp;Break before binary operators</button>
+          <div class="content">
+            Operators sit far away from their operands:
+            <div class="border-left border-danger"><pre ><code class="lang-py">income = (gross_wages +
+          taxable_interest +
+          (dividends - qualified_dividends) -
+          ira_deduction -
+          student_loan_interest)</code></pre></div>
+            Easy to match operators with operands:
+            <div class="border-left border-success"><pre ><code class="lang-py">income = (gross_wages
+          + taxable_interest
+          + (dividends - qualified_dividends)
+          - ira_deduction
+          - student_loan_interest)</code></pre></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row px-4 my-3">
+      <h3>Whitespace</h3>
+
+      <div class="col-md-12 col-sm-12">
+        <div class="info-box mb-2">
+          <button type="button" class="collapsible">&nbsp;&nbsp;Avoid extraneous whitespace</button>
+          <div class="content">
+            Avoid whitespace immediately inside parentheses, brackets or braces.<br><br>
+            Wrong:
+            <div class="border-left border-danger"><pre ><code class="lang-py">spam( ham[ 1 ], { eggs: 2 } )</code></pre></div>
+            Correct:
+            <div class="border-left border-success"><pre ><code class="lang-py">spam(ham[1], {eggs: 2})</code></pre></div>
+            <br>Avoid whitespace between a trailing comma and a following close parenthesis.<br><br>
+            Wrong:
+            <div class="border-left border-danger"><pre ><code class="lang-py">bar = (0, )</code></pre></div>
+            Correct:
+            <div class="border-left border-success"><pre ><code class="lang-py">foo = (0,)</code></pre></div>
+          </div>
+      </div>
+      </div>
+
+      <div class="col-md-12 col-sm-12">
+        <div class="info-box mb-2">
+          <button type="button" class="collapsible">&nbsp;&nbsp;Add whitespace around the operators</button>
+          <div class="content">
+            <ul>
+            <li>Consider adding whitespace around the operators with the lowest priority(ies).</li>
+            <br>
+            Wrong:
+            <div class="border-left border-danger"><pre ><code class="lang-py">hypot2 = x * x + y * y
+c = (a + b) * (a - b)</code></pre></div>
+            
+            Correct:
+              <div class="border-left border-success"><pre ><code class="lang-py">hypot2 = x*x + y*y
+c = (a+b) * (a-b)</code></pre></div>
+            <br>
+            <li>Never use more than one space.</li>
+            <br>
+            Wrong:
+            <div class="border-left border-danger"><pre ><code class="lang-py">i  =  i  +  1</code></pre></div>
+            
+            Correct:
+              <div class="border-left border-success"><pre ><code class="lang-py">i = i + 1</code></pre></div>
+              <br>
+            <li>Always have the same amount of whitespace on both sides of a binary operator.</li>
+            <br>
+            Wrong:
+            <div class="border-left border-danger"><pre ><code class="lang-py">submitted +=1</code></pre></div>
+            
+            Correct:
+              <div class="border-left border-success"><pre ><code class="lang-py">submitted += 1</code></pre></div>
+            </ul>
+          </div>
+      </div>
+      </div>
+
+    </div>
+      
+
+    <div class="row px-4 my-3">
+      <h3>Linguistic Antipatterns</h3>
+      <p>Although LAs will not result in errors or make a program fail to compile, they are considered poor-practice and make programs less readable and harder to maintain.</p>
+
+      <div class="col-md-12 col-sm-12">
+
+        <div class="info-box mb-2">
+          <button type="button" class="collapsible">&nbsp;&nbsp;"Set" Method Returns</button>
+          <div class="content">
+            When we are writing "setter" methods, we don't want them to return anything; they should simply set a property to the provided parameter. A common linguistic antipattern occurs when there is anything returned in this method, which should always be void.
+            <div class="border-left border-danger"><pre ><code class="lang-py">def set_name(self, name):
+    self.name = name
+    return self.name</code></pre></div>
+            A good "set" method simply sets the parameter and does not return anything:
+            <div class="border-left border-success"><pre ><code class="lang-py">def set_location(self, location):
+    self.location = location</code></pre></div>
+          </div>
+        </div>
+
+        <div class="info-box mb-2">
+          <button type="button" class="collapsible">&nbsp;&nbsp;"Get" Method More Than Accessor</button>
+          <div class="content">
+            "Get" methods should always be simple, one-line functions that return the requested value and nothing more. A bad "getter" performs other operations in addition to this.
+            <div class="border-left border-danger"><pre ><code class="lang-py">def get_count(self):
+    self.count += 1
+    if self.count > 10:
+        self.count = 0
+    return self.count</code></pre></div>
+            When writing a "getter," it should be solely an accessor:
+            <div class="border-left border-success"><pre ><code class="lang-py">def get_id(self):
+    return self.id</code></pre></div>
+          </div>
+        </div>
+
+        <div class="info-box mb-2">
+          <button type="button" class="collapsible">&nbsp;&nbsp;"Get" Method Does Not Return</button>
+          <div class="content">
+            "Get" methods should always return something. If a "getter" is void, it can't help us access the variable we're requesting, which will create errors later.
+            <div class="border-left border-danger"><pre ><code class="lang-py">def get_video_url(self):
+    video_url = self.url</code></pre></div>
+            A proper "getter" has a return statement for the variable requested:
+            <div class="border-left border-success"><pre ><code class="lang-py">def get_dog_breeds(self):
+    return self.breed_list</code></pre></div>
+          </div>
+        </div>
+
+        <div class="info-box mb-2">
+          <button type="button" class="collapsible">&nbsp;&nbsp;"Is" Method Returns Non-boolean</button>
+          <div class="content">
+            A method with "is" in its identifier implies that it will return a boolean value. If it returns a value that is not True or False, it is incorrectly named. The following method returns a number instead of a boolean:
+            <div class="border-left border-danger"><pre ><code class="lang-py">def is_alive(self):
+    return self.age</code></pre></div>
+            Proper "is" methods will return True, False, or a boolean variable:
+            <div class="border-left border-success"><pre ><code class="lang-py">def is_adult(self):
+    if self.age > 18:
+        return True
+    return False</code></pre></div>
+          </div>
+        </div>
+
+        <div class="info-box mb-2">
+          <button type="button" class="collapsible">&nbsp;&nbsp;Not answered question</button>
+          <div class="content">
+            The name of a method is in the form of predicate whereas the return type is not Boolean.<br><br>
+            Example: method is_alive does not return.
+            <div class="border-left border-danger"><pre ><code class="lang-py">def is_alive(self):
+    if self.status == 0:
+        self.status = 1
+            </code></pre></div>
+            Make the method return a Boolean:
+            <div class="border-left border-success"><pre ><code class="lang-py">def is_alive(self):
+    if self.status == 0:
+      return True
+    else:
+      return False</code></pre></div>
+          </div>
+        </div>
+
+        <div class="info-box mb-2">
+          <button type="button" class="collapsible">&nbsp;&nbsp;Method signature and comment are opposite</button>
+          <div class="content">
+          The documentation of a method is in contradiction with its declaration.<br><br>
+          Example: method is_alive is in contradiction with its comment documenting “is dead”, as “alive” and “dead” are antonyms.  
+            <div class="border-left border-danger"><pre ><code class="lang-py">def is_alive(self):
+      ''' returns True if the cell is dead '''
+      if self.status == 0:
+        return True
+      else:
+        return False
+            </code></pre></div>
+          Make method name and docstring consistent:
+            <div class="border-left border-success"><pre ><code class="lang-py">def is_alive(self):
+      ''' returns True if the cell is alive '''
+      if self.status == 0:
+        return True
+      else:
+        return False
+            </code></pre></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+</div>
+
+    <script>
+      var coll = document.getElementsByClassName("collapsible");
+      var i;
+
+      for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+          this.classList.toggle("active");
+          var content = this.nextElementSibling;
+          if (content.style.display === "block") {
+            content.style.display = "none";
+
+          } else {
+            content.style.display = "block";
+          }
+        });
+      }
+      </script>
+
+  </body>
+</html>

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>neatCode</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <!-- <link href="static/css/base.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="base.css">
+    <link href="static/css/prism.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/prism.css') }}">
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <a class="navbar-brand" href="#">neatCode</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('index') }}" id="home-btn">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item active">
+            <!-- <a class="nav-link" href="tutorials/tutorials.html">Tutorials</a> -->
+            <a class="nav-link" href="{{ url_for('tutorials') }}">Tutorials</a>
+          </li>
+          <li class="nav-item active">
+            <!-- <a class="nav-link" href="dashboard/dashboard.html">Dashboard</a> -->
+            <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+          </li>
+          <li class="nav-item active">
+            <!-- <a class="nav-link" href="dashboard/dashboard.html">Dashboard</a> -->
+            <a class="nav-link" href="{{ url_for('reference') }}">Reference</a>
+          </li>
+        </ul>
+
+        <form class="form-inline my-2 my-lg-0" action="/login" method="post">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+          <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
+          <button class="btn search-btn" type="submit">Search</button>
+          <button class="btn search-btn ml-1" type="submit">{{ button }}</button>
+        </form>
+      </div>
+    </nav>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- <script src="/static/js/prism.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="../../assets/js/vendor/popper.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+<div class="container px-4 mx-5">
+<h3>Quiz 1: Identifier Naming</h3>
+<div class ="quiz">
+  <form>
+    <p>1. Select the most appropriate identifier name</p>
+    <pre data-line="" class="line-numbers"><code class="lang-py">def ________(n1, n2):
+   return n1 * n2</code></pre>
+    <div class="form-group">
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+        <label class="form-check-label" for="flexRadioDefault1">
+          <pre><code class="lang-py">number_times_number</code></pre>
+        </label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+        <label class="form-check-label" for="flexRadioDefault1">
+          <pre><code class="lang-py">multiply_two_numbers</code></pre>
+        </label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+        <label class="form-check-label" for="flexRadioDefault1">
+          <pre><code class="lang-py">multiply</code></pre>
+        </label>
+      </div>
+    </div>
+
+    <p>2. Select the most appropriate variable name</p>
+    <pre data-line="" class="line-numbers"><code class="lang-py"># conversion factor
+____ = 0.618</code></pre>
+<div class="form-group">
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+    <label class="form-check-label" for="flexRadioDefault1">
+      <pre><code class="lang-py">ConversionFactor</code></pre>
+    </label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+    <label class="form-check-label" for="flexRadioDefault1">
+      <pre><code class="lang-py">conversion_factor</code></pre>
+    </label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+    <label class="form-check-label" for="flexRadioDefault1">
+      <pre><code class="lang-py">conversion-factor</code></pre>
+    </label>
+  </div>
+</div>
+  </form>
+</div>
+</div> -->
+
+<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfBpKOaZbUUFt5P7pFjEYveeZ5LBTWd6V356fOHy4oUd7zrxg/viewform?embedded=true" width="640" height="2907" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+
+  </body>
+</html>
