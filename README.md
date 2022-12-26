@@ -1,1 +1,1 @@
-# NeatCode: Code Comprehension Platform
+# NeatCode: A Code Comprehension and Debugging Platform
